@@ -272,9 +272,6 @@ blockquote.hook{margin:1.3rem 0;padding:.15rem 0 .15rem 1.1rem;border-left:3px s
   stroke-linecap:round;stroke-linejoin:round;}
 .read-btn:hover{background:var(--accent);border-color:var(--accent);}
 .read-btn:hover svg{stroke:var(--paper);}
-.read-btn.small{width:1.4rem;height:1.4rem;margin-left:.35rem;border-color:transparent;}
-.read-btn.small svg{width:.8rem;height:.8rem;stroke:var(--ink-faint);}
-.read-btn.small:hover svg{stroke:var(--paper);}
 
 .reader{position:fixed;inset:0;z-index:100;background:var(--paper);display:flex;flex-direction:column;}
 .reader[hidden]{display:none;}
@@ -356,7 +353,6 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-con
     <span class="reader-title" id="rTitle"></span>
     <span class="rgroup">
       <button class="rb tool on" data-tool="pen">Pen</button>
-      <button class="rb tool" data-tool="mark">Highlighter</button>
       <button class="rb tool" data-tool="erase">Eraser</button>
     </span>
     <span class="rgroup swatches" id="rColors"></span>
@@ -583,7 +579,7 @@ function topicPage(slug,n,jump){
     <h2>Contents</h2>
     <div class="idx-cols">
       ${groups.map(g=>`<div class="idx-group"><h3>${g.name}</h3><ul>${
-        g.items.map(s=>`<li><a data-jump="${s.id}">${s.title}</a><button class="read-btn small" data-read="${s.id}" title="Open in reading mode" aria-label="Open in reading mode">${penIcon}</button></li>`).join('')
+        g.items.map(s=>`<li><a data-jump="${s.id}">${s.title}</a></li>`).join('')
       }</ul></div>`).join('')}
     </div>
   </div>`;
@@ -805,7 +801,6 @@ function fitCanvas(){
 function strokeStyleFor(s){
   rCtx.lineCap = 'round'; rCtx.lineJoin = 'round';
   if(s.tool === 'erase'){ rCtx.globalCompositeOperation='destination-out'; rCtx.strokeStyle='rgba(0,0,0,1)'; rCtx.lineWidth=s.size*4; rCtx.globalAlpha=1; }
-  else if(s.tool === 'mark'){ rCtx.globalCompositeOperation='source-over'; rCtx.strokeStyle=s.color; rCtx.lineWidth=s.size*5; rCtx.globalAlpha=.28; }
   else { rCtx.globalCompositeOperation='source-over'; rCtx.strokeStyle=s.color; rCtx.lineWidth=s.size; rCtx.globalAlpha=1; }
 }
 
@@ -905,7 +900,7 @@ reader.classList.add('drawing'); sizeDot();
    2. CounterAPI: sign up at counterapi.dev, create a public counter,
       and put "workspace/counter-name" here.
    Leave both empty and the number counts this browser only.      */
-const GC_CODE = '';
+const GC_CODE = 'selfawareghost';
 const COUNTER_API = '';
 
 function show(n){ $('#visits').textContent = n; }

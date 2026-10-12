@@ -109,7 +109,7 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;p
 .mark .logo{width:2.1rem;height:2.1rem;border-radius:10px;display:grid;place-items:center;
   background:conic-gradient(from 200deg,var(--western),var(--indian),var(--religion),var(--socio),var(--western));
   color:#fff;font-family:var(--deva);font-size:1.15rem;line-height:1;box-shadow:0 6px 16px -8px var(--shadow);}
-.mark .logo span{display:grid;place-items:center;width:1.7rem;height:1.7rem;border-radius:8px;background:var(--night);}
+.mark .logo span{display:grid;place-items:center;width:1.7rem;height:1.7rem;border-radius:8px;background:var(--night);line-height:1;padding-top:.12rem;overflow:visible;}
 .mark .rom{font-family:var(--display);font-size:1.15rem;font-weight:600;letter-spacing:-.01em;}
 .nav{display:flex;gap:.2rem;margin-left:auto;font-family:var(--sans);font-size:.85rem;}
 .nav a{text-decoration:none;color:var(--ink-soft);padding:.38rem .65rem;border-radius:99px;transition:color .15s,background .15s;}
@@ -196,7 +196,7 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;p
 .eyebrow i{width:.5rem;height:.5rem;border-radius:50%;background:#6ED4C1;box-shadow:0 0 0 4px rgba(110,212,193,.25);animation:blink 2.4s infinite;}
 @keyframes blink{50%{box-shadow:0 0 0 8px rgba(110,212,193,0);}}
 .hero-deva{
-  font-family:var(--deva);font-size:clamp(4.5rem,13vw,9.6rem);line-height:.95;margin:0;letter-spacing:-.01em;
+  font-family:var(--deva);font-size:clamp(4.5rem,13vw,9.6rem);line-height:1.2;margin:-.16em 0 -.1em;padding:.26em .06em .04em 0;letter-spacing:-.01em;
   background:linear-gradient(115deg,#FFFFFF 10%,#FFD98A 40%,#F59D8C 62%,#A9B1FF 88%);background-size:200% 100%;
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
@@ -866,7 +866,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:1.2rem;align-items:center;justify-c
 <footer>
   <div class="wrap">
     <span class="by"><span class="deva">दर्शन</span>Made by Mukul Jakhar</span>
-    <span class="keys">Select a word for its meaning, a passage for Hinglish &nbsp;·&nbsp; <kbd>/</kbd> search &nbsp; <kbd>C</kbd> contents &nbsp; <kbd>T</kbd> day / night &nbsp; flashcards: <kbd>Space</kbd> flip, <kbd>&larr;</kbd> <kbd>&rarr;</kbd></span>
+    <span class="keys">Select a word for its meaning, a passage for its translation &nbsp;·&nbsp; <kbd>/</kbd> search &nbsp; <kbd>C</kbd> contents &nbsp; <kbd>T</kbd> day / night &nbsp; flashcards: <kbd>Space</kbd> flip, <kbd>&larr;</kbd> <kbd>&rarr;</kbd></span>
   </div>
 </footer>
 
@@ -1106,7 +1106,6 @@ function home(){
       <span class="eyebrow reveal"><i></i>Philosophy optional · UPSC Civil Services Mains</span>
       <h1 class="hero-deva reveal d1">दर्शन</h1>
       <div class="hero-line reveal d1"><span class="rom">Darśana</span><span>— the way of seeing</span></div>
-      <p class="lede reveal d2">Notes, model answers and every past question from 2013 to 2026, with tools to revise, drill and track what you have covered. Select any word for its meaning, or any passage to read it in Hinglish.</p>
       <div class="hero-cta reveal d3">
         <a class="btn gold" href="#/practice">${ICON.clock} Start practising</a>
         <a class="btn ghost" href="#/trends">${ICON.grid} See what UPSC asks</a>
@@ -2085,8 +2084,8 @@ function showTip(){
   selText = s.text;
   const w = cleanWord(s.text), single = !/\s/.test(s.text) && /^[\p{L}'’-]{2,40}$/u.test(w);
   tip.innerHTML = single
-    ? `<button data-act="dict">${SICON.book} Meaning</button><button data-act="tr">${SICON.lang} Hinglish</button>`
-    : `<button data-act="tr">${SICON.lang} Translate to Hinglish</button>`;
+    ? `<button data-act="dict">${SICON.book} Meaning</button><button data-act="tr">${SICON.lang} Translation</button>`
+    : `<button data-act="tr">${SICON.lang} See translation</button>`;
   const touch = matchMedia('(hover:none)').matches;
   const below = touch || s.rect.top < 90;
   tip.classList.toggle('below', below);
@@ -2139,13 +2138,19 @@ function copyText(t, btn){
   const done = ()=>{ if(btn){ const o = btn.innerHTML; btn.innerHTML = `${SICON.copy} Copied`; setTimeout(()=>btn.innerHTML = o, 1400); } };
   if(navigator.clipboard) navigator.clipboard.writeText(t).then(done, ()=>{}); else done();
 }
-let NET_FAIL = false;
-async function getJSON(url){
-  let r; try{ r = await fetch(url); }catch(e){ NET_FAIL = true; throw e; }
-  if(!r.ok) throw new Error(r.status); return r.json();
+/* fetch JSON with a time limit; reports whether a failure was a network/CORS failure */
+async function getJSON(url, ms=8000){
+  const ctl = ('AbortController' in window) ? new AbortController() : null;
+  const t = ctl ? setTimeout(()=>ctl.abort(), ms) : null;
+  try{
+    const r = await fetch(url, ctl ? {signal:ctl.signal} : undefined);
+    if(!r.ok){ const e = new Error('HTTP '+r.status); e.http = r.status; throw e; }
+    return await r.json();
+  } finally { if(t) clearTimeout(t); }
 }
+const GT = 'https://translate.googleapis.com/translate_a/single?client=gtx';
 
-/* ---- translation: Google first, MyMemory as fallback ---- */
+/* ---- translation ---- */
 const TR_CACHE = new Map();
 function chunks(text, max){
   const parts = text.match(/[^.!?;]+[.!?;]*\s*/g) || [text], out = []; let cur = '';
@@ -2153,14 +2158,16 @@ function chunks(text, max){
     while(p.length > max){ out.push(p.slice(0,max)); p = p.slice(max); } cur += p; });
   if(cur.trim()) out.push(cur); return out;
 }
+/* One Google call: Hindi text plus its romanisation. Newlines in the input are kept. */
+async function googleHi(text){
+  const j = await getJSON(`${GT}&sl=en&tl=hi&dt=t&dt=rm&q=${encodeURIComponent(text)}`);
+  let h = '', r = '';
+  (j[0]||[]).forEach(seg=>{ if(!seg) return; if(seg[0]) h += seg[0]; else if(seg[2]) r += seg[2]; });
+  return {hi:h, rom:r};
+}
 async function viaGoogle(text){
   let hi = '', rom = '';
-  for(const c of chunks(text, 1400)){
-    const j = await getJSON('https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=hi&dt=t&dt=rm&q='+encodeURIComponent(c));
-    let h = '', r = '';
-    (j[0]||[]).forEach(seg=>{ if(!seg) return; if(seg[0]) h += seg[0]; else if(seg[2]) r += seg[2]; });
-    hi += h + ' '; rom += (r || toRoman(h)) + ' ';
-  }
+  for(const c of chunks(text, 1400)){ const g = await googleHi(c); hi += g.hi + ' '; rom += (g.rom || toRoman(g.hi)) + ' '; }
   return {hi:hi.trim(), rom:rom.trim(), via:'Google Translate'};
 }
 async function viaMyMemory(text){
@@ -2172,6 +2179,7 @@ async function viaMyMemory(text){
   hi = hi.trim(); if(!hi) throw new Error('empty');
   return {hi, rom:toRoman(hi), via:'MyMemory'};
 }
+/* Plain Hindi translation (Devanagari + its romanisation). */
 async function translate(text){
   if(TR_CACHE.has(text)) return TR_CACHE.get(text);
   let res; try{ res = await viaGoogle(text); }catch(e){ res = await viaMyMemory(text); }
@@ -2220,13 +2228,97 @@ function hinglishPolish(s){
     .replace(/\s+([.,;:!?])/g,'$1').replace(/\s{2,}/g,' ').trim();
 }
 
+/* ---- Hinglish: Hindi grammar, everyday English words kept in English ----
+   1. translate the passage into Hindi (with its Roman spelling);
+   2. translate each English content word on its own;
+   3. wherever that word's Hindi appears in the Roman sentence, put the
+      English word back. Grammar words, verbs and connectives stay Hindi:
+      "Religious experience is a valid source of knowledge"
+      -> "religious experience knowledge ka ek valid source hai".        */
+const KEEP_HINDI = new Set(('a an the and or but nor so yet for of in on at to from by with without within into onto upon about above below over under between among through during before after since until while ' +
+ 'is am are was were be been being has have had having do does did done doing can could shall should will would may might must ought ' +
+ 'this that these those it its it\'s they them their theirs he him his she her hers we us our ours you your yours i me my mine who whom whose which what where when why how ' +
+ 'not no yes very also too only just even still then than thus hence therefore however because although though if unless whether either neither both each every all any some many much more most less least few such same other another ' +
+ 'own one two three first second third here there now never always often sometimes rather quite almost again further already ' +
+ 'say says said hold holds held make makes made give gives gave take takes took become becomes became seem seems seemed mean means meant show shows showed shown ' +
+ 'remain remains remained lead leads led require requires required involve involves involved include includes included suggest suggests suggested provide provides provided ' +
+ 'claim claims claimed believe believes believed consider considers considered argue argues argued know knows knew known think thinks thought see sees saw seen ' +
+ 'come comes came go goes went get gets got keep keeps kept let lets put puts call calls called find finds found tell tells told ask asks asked use uses used want wants wanted ' +
+ 'need needs needed try tries tried leave leaves left feel feels felt bring brings brought begin begins began write writes wrote stand stands stood ' +
+ 'cannot can\'t doesn\'t don\'t isn\'t aren\'t won\'t etc via per vs').split(/\s+/));
+function hinglishWords(text){
+  const seen = new Map();
+  (text.match(/[\p{L}][\p{L}'’-]*/gu) || []).forEach(w=>{
+    const lw = w.toLowerCase().replace(/’/g,"'");
+    if(lw.length < 3 || KEEP_HINDI.has(lw)) return;
+    if(/(ed|ing)$/.test(lw) && !/^[A-Z]/.test(w) && lw.length > 5 && !/(ness|ment|tion|ity)$/.test(lw)){
+      if(/ing$/.test(lw) && !/(thing|ring|ling|ding)$/.test(lw)) return;   /* verb forms stay Hindi */
+      if(/ed$/.test(lw) && !/(need|seed|creed|deed|bed|red)$/.test(lw)) return;
+    }
+    if(!seen.has(lw)){ const idx = text.indexOf(w), before = text.slice(0, idx).trim();
+      const start = !before || /[.!?:\u2014"\u201C(]$/.test(before);
+      seen.set(lw, /^[A-Z]/.test(w) && !start ? w : lw); }
+  });
+  return [...seen.entries()].slice(0, 160);
+}
+/* everyday spellings for the commonest Hindi words */
+const CASUAL = {kaa:'ka',kee:'ki',lie:'liye',men:'mein',mem:'mein',hain:'hain',nahin:'nahi',nahee:'nahi',yah:'yeh',vah:'woh',ve:'woh',
+  aur:'aur',bhee:'bhi',hee:'hi',kyonki:'kyunki',lekin:'lekin',agar:'agar',jo:'jo',jise:'jise',thaa:'tha',thee:'thi',gayaa:'gaya',kiyaa:'kiya',
+  dvaaraa:'dwara',vishv:'vishwa',sakataa:'sakta',sakatee:'sakti',sakate:'sakte',karataa:'karta',karatee:'karti',karate:'karte',hotaa:'hota',hotee:'hoti',hote:'hote',
+  rahaa:'raha',rahee:'rahi',apanaa:'apna',apanee:'apni',apane:'apne',jaataa:'jaata',jaatee:'jaati',maanataa:'maanta',maanate:'maante',kahataa:'kehta',kahate:'kehte'};
+function casualHindi(s){ return s.replace(/[A-Za-z]+/g, w=>{ const c = CASUAL[w.toLowerCase()]; return c ? (/^[A-Z]/.test(w) ? c[0].toUpperCase()+c.slice(1) : c) : w; }); }
+const normTok = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,'');
+async function hinglish(text){
+  const key = 'HG:'+text; if(TR_CACHE.has(key)) return TR_CACHE.get(key);
+  const base = await translate(text);
+  let out = casualHindi(base.rom);
+  try{
+    const words = hinglishWords(text);
+    if(words.length){
+      const g = await googleHi(words.map(w=>w[0]).join('\n'));
+      const his = g.hi.split('\n').map(s=>s.trim());
+      let roms = (g.rom || '').split('\n').map(s=>s.trim());
+      if(roms.length !== his.length) roms = his.map(toRoman);
+      roms = roms.map(hinglishPolish);
+      const map = words.map((w,i)=>({en:w[1], parts:(roms[i]||'').split(/\s+/).map(normTok).filter(Boolean)}))
+        .filter(m=>m.parts.length && m.parts.join('').length >= 2)
+        .sort((a,b)=>b.parts.length - a.parts.length);
+      const toks = out.split(/(\s+)/);                 /* keep the spaces */
+      const words_ = toks.filter((_,i)=>i%2===0);
+      const used = new Array(words_.length).fill(false);
+      const match = (tok, part, last) => {
+        const t = normTok(tok); if(!t) return false;
+        if(t === part) return true;
+        /* allow Hindi plural/oblique endings on the last word: -on, -en, -e, -i, -a */
+        return last && part.length >= 4 && t.startsWith(part) && t.length - part.length <= 3;
+      };
+      for(const m of map){
+        for(let i=0;i + m.parts.length <= words_.length;i++){
+          if(used.slice(i, i+m.parts.length).some(Boolean)) continue;
+          let ok = true;
+          for(let k=0;k<m.parts.length;k++) if(!match(words_[i+k], m.parts[k], k===m.parts.length-1)){ ok = false; break; }
+          if(!ok) continue;
+          const tail = (words_[i+m.parts.length-1].match(/[^\p{L}\p{N}]+$/u)||[''])[0];
+          const head = (words_[i].match(/^[^\p{L}\p{N}]+/u)||[''])[0];
+          words_[i] = head + m.en + tail; used[i] = true;
+          for(let k=1;k<m.parts.length;k++){ words_[i+k] = ''; used[i+k] = true; }
+        }
+      }
+      out = words_.filter(w=>w!=='').join(' ').replace(/\s+([.,;:!?])/g,'$1');
+      out = out.replace(/(^|[.!?]\s+)([a-z])/g, (m,a,b)=>a+b.toUpperCase());
+    }
+  }catch(e){ /* fall back to the plain Roman Hindi */ }
+  const res = {hi:base.hi, rom:out, via:base.via};
+  TR_CACHE.set(key, res); return res;
+}
+
 async function openTranslate(text){
   const t = text.length > 6000 ? text.slice(0,6000) : text;
-  openPop(`${popHead('Translate to Hinglish', 'Hinglish', `${t.split(/\s+/).length} words selected`, SICON.lang)}
+  openPop(`${popHead('Translation', 'English → Hinglish · हिन्दी', `${t.split(/\s+/).length} words selected`, SICON.lang)}
     <div class="pop-b" id="popBody">${skeleton}</div>
     <div class="pop-f" id="popFoot"><span class="note-s">Machine translation — check philosophical terms against your notes.</span></div>`);
   try{
-    const r = await translate(t);
+    const r = await hinglish(t);
     if(!popOpen) return;
     $('#popBody').innerHTML = `<div class="tabs" id="trTabs"><button class="on" data-v="rom">Hinglish</button><button data-v="dev">देवनागरी</button><button data-v="both">Both</button></div>
       <p class="hing" id="trRom">${esc(r.rom)}</p>
@@ -2246,42 +2338,63 @@ async function openTranslate(text){
   }
 }
 
-/* ---- dictionary: Free Dictionary API, then Wiktionary ---- */
+/* ---- dictionary: three sources, tried in turn; one failing never blocks the next ---- */
 const DICT_CACHE = new Map();
+function wordForms(key){
+  const f = [key];
+  if(/ies$/.test(key)) f.push(key.replace(/ies$/,'y'));
+  if(/(ses|xes|ches|shes)$/.test(key)) f.push(key.replace(/es$/,''));
+  if(/s$/.test(key) && !/ss$/.test(key)) f.push(key.replace(/s$/,''));
+  if(/ied$/.test(key)) f.push(key.replace(/ied$/,'y'));
+  if(/ed$/.test(key)) f.push(key.replace(/ed$/,''), key.replace(/d$/,''));
+  if(/ing$/.test(key)) f.push(key.replace(/ing$/,''), key.replace(/ing$/,'e'));
+  if(/ly$/.test(key)) f.push(key.replace(/ly$/,''));
+  return [...new Set(f)];
+}
+async function fromFreeDictionary(forms){
+  for(const f of forms){
+    try{
+      const j = await getJSON('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(f), 6000);
+      if(!Array.isArray(j) || !j.length) continue;
+      const e = j[0]; const ph = (j.find(x=>x.phonetic)||{}).phonetic || ((e.phonetics||[]).find(p=>p.text)||{}).text || '';
+      const audio = (j.flatMap(x=>x.phonetics||[]).find(p=>p.audio)||{}).audio || '';
+      const groups = {};
+      j.forEach(x=>(x.meanings||[]).forEach(m=>{ const g = groups[m.partOfSpeech] ||= {pos:m.partOfSpeech, defs:[], syn:new Set()};
+        (m.definitions||[]).forEach(d=>g.defs.length<4 && g.defs.push({d:d.definition, ex:d.example}));
+        (m.synonyms||[]).forEach(s=>g.syn.size<6 && g.syn.add(s)); }));
+      const gs = Object.values(groups).filter(g=>g.defs.length);
+      if(gs.length) return {word:e.word, ph, audio, groups:gs, via:'Free Dictionary API'};
+    }catch(e){ if(!e.http) return null; }      /* network trouble: move on to the next source */
+  }
+  return null;
+}
+async function fromGoogle(word){
+  const j = await getJSON(`${GT}&sl=en&tl=hi&dt=t&dt=md&dt=ss&dt=ex&dt=bd&q=${encodeURIComponent(word)}`, 7000);
+  const md = j[12], ss = j[11];
+  if(!Array.isArray(md) || !md.length) return null;
+  const syn = {};
+  (ss||[]).forEach(s=>{ if(Array.isArray(s) && s[0]) syn[s[0]] = new Set((s[1]||[]).flatMap(x=>x[0]||[]).slice(0,6)); });
+  const groups = md.map(g=>({pos:g[0]||'meaning', defs:(g[1]||[]).slice(0,4).map(d=>({d:d[0], ex:(d[2]||'').replace(/<[^>]+>/g,'')})).filter(d=>d.d),
+    syn: syn[g[0]] || new Set()})).filter(g=>g.defs.length);
+  return groups.length ? {word, ph:'', audio:'', groups, via:'Google Dictionary'} : null;
+}
+async function fromWiktionary(word){
+  const j = await getJSON('https://en.wiktionary.org/api/rest_v1/page/definition/'+encodeURIComponent(word), 7000);
+  const en = j.en || [];
+  const strip = h => (h||'').replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim();
+  const groups = en.slice(0,4).map(g=>({pos:g.partOfSpeech, defs:(g.definitions||[]).filter(d=>strip(d.definition)).slice(0,4)
+    .map(d=>({d:strip(d.definition), ex:strip((d.examples||[])[0])})), syn:new Set()})).filter(g=>g.defs.length);
+  return groups.length ? {word, ph:'', audio:'', groups, via:'Wiktionary'} : null;
+}
 async function lookupWord(w){
   const key = w.toLowerCase(); if(DICT_CACHE.has(key)) return DICT_CACHE.get(key);
-  let res = null; NET_FAIL = false;
-  const forms = [key];
-  if(/ies$/.test(key)) forms.push(key.replace(/ies$/,'y'));
-  if(/(ses|xes|ches|shes)$/.test(key)) forms.push(key.replace(/es$/,''));
-  if(/s$/.test(key) && !/ss$/.test(key)) forms.push(key.replace(/s$/,''));
-  if(/ied$/.test(key)) forms.push(key.replace(/ied$/,'y'));
-  if(/ed$/.test(key)) forms.push(key.replace(/ed$/,''), key.replace(/d$/,''));
-  if(/ing$/.test(key)) forms.push(key.replace(/ing$/,''), key.replace(/ing$/,'e'));
-  if(/ly$/.test(key)) forms.push(key.replace(/ly$/,''));
-  for(const f of forms){ if(res || NET_FAIL) break; try{
-    const j = await getJSON('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(f));
-    const e = j[0]; const ph = (j.find(x=>x.phonetic)||{}).phonetic || ((e.phonetics||[]).find(p=>p.text)||{}).text || '';
-    const audio = (j.flatMap(x=>x.phonetics||[]).find(p=>p.audio)||{}).audio || '';
-    const groups = {};
-    j.forEach(x=>(x.meanings||[]).forEach(m=>{ const g = groups[m.partOfSpeech] ||= {pos:m.partOfSpeech, defs:[], syn:new Set()};
-      (m.definitions||[]).forEach(d=>g.defs.length<4 && g.defs.push({d:d.definition, ex:d.example}));
-      (m.synonyms||[]).forEach(s=>g.syn.size<6 && g.syn.add(s)); }));
-    res = {word:e.word, ph, audio, groups:Object.values(groups), via:'Free Dictionary API'};
-  }catch(e){} }
-  if(!res && !NET_FAIL){
-    try{
-      const j = await getJSON('https://en.wiktionary.org/api/rest_v1/page/definition/'+encodeURIComponent(w));
-      const en = j.en || Object.values(j)[0] || [];
-      const strip = h => (h||'').replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim();
-      const groups = en.slice(0,4).map(g=>({pos:g.partOfSpeech, defs:(g.definitions||[]).filter(d=>strip(d.definition)).slice(0,4)
-        .map(d=>({d:strip(d.definition), ex:strip((d.examples||[])[0])})), syn:new Set()})).filter(g=>g.defs.length);
-      if(groups.length) res = {word:w, ph:'', audio:'', groups, via:'Wiktionary'};
-    }catch(e){}
-  }
-  if(res) DICT_CACHE.set(key, res);
-  else if(NET_FAIL) return {net:true};
-  return res;
+  const forms = wordForms(key);
+  let res = null, reached = false;
+  try{ res = await fromFreeDictionary(forms); reached = reached || !!res; }catch(e){}
+  if(!res){ for(const f of forms){ try{ res = await fromGoogle(f); reached = true; if(res) break; }catch(e){ if(e.http) reached = true; break; } } }
+  if(!res){ for(const f of [w, ...forms]){ try{ res = await fromWiktionary(f); reached = true; if(res) break; }catch(e){ if(e.http) reached = true; else break; } } }
+  if(res){ DICT_CACHE.set(key, res); return res; }
+  return reached ? null : {net:true};
 }
 async function openDict(word){
   if(!word) return;
@@ -2289,7 +2402,7 @@ async function openDict(word){
     <div class="pop-f" id="popFoot"><span class="note-s"></span></div>`);
   const [d, hi] = await Promise.all([lookupWord(word), translate(word).catch(()=>null)]);
   if(!popOpen) return;
-  const hiBox = hi ? `<div class="hin"><small>In Hindi</small><b>${esc(hi.hi)}</b><span>${esc(hi.rom)}</span></div>` : '';
+  const hiBox = hi && hi.hi ? `<div class="hin"><small>In Hindi</small><b>${esc(hi.hi)}</b><span>${esc(hi.rom)}</span></div>` : '';
   if(d && !d.net){
     $('.pop-h h3').textContent = d.word;
     if(d.ph) $('.pop-h h3').insertAdjacentHTML('afterend', `<div class="ph">${esc(d.ph)}</div>`);
@@ -2298,11 +2411,15 @@ async function openDict(word){
     $('#popFoot').innerHTML = `<span class="note-s">From ${d.via}${hi?' · Hindi via '+hi.via:''}</span>
       <button class="btn small" id="dSpeak">${SICON.speak} Pronounce</button><button class="btn small" id="dFind">Find in notes</button>`;
     $('#dSpeak').onclick = ()=>{ if(d.audio){ new Audio(d.audio).play().catch(()=>speak(d.word)); } else speak(d.word); };
+  } else if(d && d.net && !hi){
+    $('#popBody').innerHTML = `<p class="msg">Couldn’t reach any of the dictionaries just now. Check your connection and try again — if you are online, one of the services may be briefly down.</p>`;
+    $('#popFoot').innerHTML = `<span class="note-s"></span><button class="btn small" id="dRetry">Try again</button><button class="btn small" id="dFind">Find in notes</button>`;
+    $('#dRetry').onclick = ()=>{ closePop(); openDict(word); };
   } else {
-    const offline = navigator.onLine === false || (d && d.net);
-    $('#popBody').innerHTML = `<p class="msg">${offline ? 'Couldn’t reach the dictionary. It needs an internet connection — check that you are online and try again.'
-      : `“${esc(word)}” isn’t in the English dictionary — it may be a Sanskrit or technical term. Your own notes are the best place to look it up.`}</p>${hiBox}`;
-    $('#popFoot').innerHTML = `<span class="note-s"></span><button class="btn small" id="dFind">Find in notes</button>`;
+    $('#popBody').innerHTML = `<p class="msg">${hiBox ? 'No English dictionary entry came back for this word, but here is its Hindi meaning.' :
+      `“${esc(word)}” isn’t in the English dictionary — it may be a Sanskrit or technical term. Your own notes are the best place to look it up.`}</p>${hiBox}`;
+    $('#popFoot').innerHTML = `<span class="note-s"></span><button class="btn small" id="dSpeak">${SICON.speak} Pronounce</button><button class="btn small" id="dFind">Find in notes</button>`;
+    $('#dSpeak').onclick = ()=>speak(word);
   }
   $('#dFind').onclick = ()=>{ closePop(); const q = $('#q'); q.value = word; q.dispatchEvent(new Event('input')); q.focus(); scrollTo({top:0}); };
 }

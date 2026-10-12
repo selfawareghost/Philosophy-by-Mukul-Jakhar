@@ -112,7 +112,7 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;p
 .mark .logo span{display:grid;place-items:center;width:1.7rem;height:1.7rem;border-radius:8px;background:var(--night);line-height:1;padding-top:.12rem;overflow:visible;}
 .mark .rom{font-family:var(--display);font-size:1.15rem;font-weight:600;letter-spacing:-.01em;}
 .nav{display:flex;gap:.2rem;margin-left:auto;font-family:var(--sans);font-size:.85rem;}
-.nav a{text-decoration:none;color:var(--ink-soft);padding:.38rem .65rem;border-radius:99px;transition:color .15s,background .15s;}
+.nav a{white-space:nowrap;text-decoration:none;color:var(--ink-soft);padding:.38rem .65rem;border-radius:99px;transition:color .15s,background .15s;}
 .nav a:hover{color:var(--ink);background:var(--paper-2);}
 .nav a.on{color:#fff;background:var(--accent-d);}
 .nav a.hot:not(.on){color:var(--accent);font-weight:600;}
@@ -289,7 +289,7 @@ h2.lbl::after{content:"";flex:1;height:1px;background:var(--rule);}
 .meter-l{display:flex;justify-content:space-between;max-width:22rem;font-family:var(--sans);font-size:.7rem;color:var(--ink-faint);}
 
 /* ---------- wide links + tools ---------- */
-.pair{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.pair{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;}
 .slab{background:var(--paper);border:1px solid var(--rule);border-radius:var(--r);padding:1.4rem 1.5rem;text-decoration:none;display:flex;
   justify-content:space-between;align-items:center;gap:1rem;transition:transform .2s,box-shadow .2s,border-color .2s;}
 .slab:hover{transform:translateY(-3px);box-shadow:0 18px 36px -26px var(--shadow);border-color:var(--ink-faint);}
@@ -732,6 +732,95 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:1.2rem;align-items:center;justify-c
 .keys{font-size:.74rem;color:#A9A4B8;line-height:2;}
 .keys kbd{font-family:var(--sans);border:1px solid rgba(255,255,255,.2);border-radius:4px;padding:0 .35rem;font-size:.7rem;background:rgba(255,255,255,.06);color:#fff;}
 
+
+/* ---------- revision charts ---------- */
+.banner.night{background:radial-gradient(90% 120% at 100% 0%,#3B3F9A 0%,transparent 55%),radial-gradient(70% 90% at 0% 100%,#4A1B3C 0%,transparent 60%),var(--night);box-shadow:0 30px 60px -40px #000;}
+.ctabs{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin:0 0 1.4rem;}
+.ctab{display:flex;align-items:center;gap:.8rem;text-align:left;cursor:pointer;padding:.85rem 1.1rem;border-radius:16px;border:1px solid var(--rule);background:var(--paper);
+  transition:transform .2s,box-shadow .2s,border-color .2s;min-width:0;}
+.ctab:hover{transform:translateY(-2px);box-shadow:0 14px 28px -22px var(--shadow);}
+.ctab .pair-ic{display:flex;}
+.ctab .pair-ic i{width:1.15rem;height:1.15rem;border-radius:50%;border:2px solid var(--paper);}
+.ctab .pair-ic i+i{margin-left:-.4rem;}
+.ctab b{display:block;font-family:var(--display);font-size:1.02rem;font-weight:600;line-height:1.2;}
+.ctab small{display:block;font-family:var(--sans);font-size:.7rem;color:var(--ink-faint);}
+.ctab.on{border-color:transparent;background:linear-gradient(135deg,#232766,var(--night));color:#fff;box-shadow:0 16px 34px -20px rgba(20,20,60,.8);}
+.ctab.on small{color:#BFBAD0;}
+.ctab.soon{opacity:.62;}
+.cfilters{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin:0 0 1.6rem;}
+.cfilters .sp{flex:1;}
+.cfilters input{font-family:var(--sans);font-size:.82rem;padding:.42rem .9rem;border-radius:99px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);width:14rem;max-width:100%;}
+.cfilters input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 15%,transparent);}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(19rem,1fr));gap:1.2rem;}
+.chart{position:relative;display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--rule);border-radius:18px;overflow:hidden;cursor:pointer;
+  text-align:left;padding:0;transition:transform .25s,box-shadow .25s,border-color .25s;}
+.chart:hover{transform:translateY(-4px);box-shadow:0 26px 50px -30px var(--shadow);border-color:color-mix(in srgb,var(--c) 45%,var(--rule));}
+.chart .thumb{position:relative;aspect-ratio:3/2;overflow:hidden;background:var(--paper-2);}
+.chart .thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,.7,.3,1);}
+.chart:hover .thumb img{transform:scale(1.06);}
+.chart .thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(10,10,30,.55));opacity:0;transition:opacity .3s;}
+.chart:hover .thumb::after{opacity:1;}
+.chart .zoom{position:absolute;right:.8rem;bottom:.8rem;z-index:1;display:inline-flex;align-items:center;gap:.35rem;font-family:var(--sans);font-size:.72rem;font-weight:600;
+  padding:.35rem .7rem;border-radius:99px;background:rgba(255,255,255,.92);color:#191722;opacity:0;transform:translateY(6px);transition:opacity .25s,transform .25s;}
+.chart:hover .zoom{opacity:1;transform:none;}
+.chart .num{position:absolute;left:.8rem;top:.8rem;z-index:1;width:2rem;height:2rem;border-radius:10px;display:grid;place-items:center;
+  font-family:var(--display);font-weight:600;font-size:.9rem;color:#fff;background:linear-gradient(135deg,var(--c),color-mix(in srgb,var(--c) 55%,#000));box-shadow:0 6px 14px -6px rgba(0,0,0,.5);}
+.chart .body{padding:1rem 1.15rem 1.1rem;display:flex;flex-direction:column;gap:.3rem;flex:1;}
+.chart .tag{font-family:var(--sans);font-size:.66rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--c);}
+.chart h3{margin:0;font-family:var(--display);font-size:1.15rem;font-weight:600;line-height:1.25;}
+.chart p{margin:0;font-size:.93rem;color:var(--ink-soft);line-height:1.5;}
+.chart .done-b{position:absolute;right:.8rem;top:.8rem;z-index:1;display:none;align-items:center;gap:.3rem;font-family:var(--sans);font-size:.68rem;font-weight:600;
+  padding:.28rem .6rem;border-radius:99px;background:#128373;color:#fff;}
+.chart.revised .done-b{display:inline-flex;}
+.chart.revised{border-color:color-mix(in srgb,#128373 45%,var(--rule));}
+.soon-box{border:1.5px dashed var(--rule);border-radius:20px;padding:3rem 1.5rem;text-align:center;background:var(--paper);}
+.soon-box b{display:block;font-family:var(--display);font-size:1.3rem;font-weight:600;margin-bottom:.3rem;}
+.soon-box p{margin:0;color:var(--ink-soft);font-family:var(--sans);font-size:.88rem;}
+
+/* full-screen viewer */
+.cv{position:fixed;inset:0;z-index:120;display:flex;flex-direction:column;background:#07081A;color:#EDEAF5;animation:fadeIn .2s ease-out;}
+.cv[hidden]{display:none;}
+.cv-top{display:flex;align-items:center;gap:.6rem;padding:.7rem 1rem;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.08);flex-wrap:wrap;}
+.cv-top .ti{flex:1;min-width:12rem;}
+.cv-top .ti small{display:block;font-family:var(--sans);font-size:.7rem;color:#A9A4C0;}
+.cv-top .ti b{display:block;font-family:var(--display);font-size:1.1rem;font-weight:600;line-height:1.2;}
+.cv-btn{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--sans);font-size:.78rem;padding:.45rem .8rem;border-radius:99px;cursor:pointer;
+  border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;text-decoration:none;transition:background .15s,border-color .15s;}
+.cv-btn:hover{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.35);}
+.cv-btn.on{background:#128373;border-color:#128373;}
+.cv-btn svg{width:1rem;height:1rem;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.cv-btn.ico{padding:.45rem;}
+.cv-zoom{display:inline-flex;align-items:center;border:1px solid rgba(255,255,255,.18);border-radius:99px;overflow:hidden;}
+.cv-zoom button{background:none;border:none;color:#fff;cursor:pointer;font-family:var(--sans);font-size:.85rem;padding:.42rem .7rem;}
+.cv-zoom button:hover{background:rgba(255,255,255,.14);}
+.cv-zoom span{font-family:var(--sans);font-size:.72rem;color:#A9A4C0;min-width:3rem;text-align:center;}
+.cv-stage{position:relative;flex:1;overflow:hidden;cursor:grab;touch-action:none;}
+.cv-stage.drag{cursor:grabbing;}
+.cv-stage img{position:absolute;left:0;top:0;transform-origin:0 0;user-select:none;-webkit-user-drag:none;max-width:none;box-shadow:0 30px 80px -30px #000;border-radius:6px;}
+.cv-stage.anim img{transition:transform .25s cubic-bezier(.2,.7,.3,1);}
+.cv-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:3rem;height:3rem;border-radius:50%;border:1px solid rgba(255,255,255,.2);
+  background:rgba(10,10,30,.55);color:#fff;font-size:1.4rem;cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(6px);transition:background .15s,transform .15s;}
+.cv-nav:hover{background:rgba(255,255,255,.18);transform:translateY(-50%) scale(1.06);}
+.cv-nav.prev{left:1rem;} .cv-nav.next{right:1rem;}
+.cv-hint{position:absolute;left:50%;bottom:1rem;transform:translateX(-50%);z-index:2;font-family:var(--sans);font-size:.72rem;color:#C9C4DA;
+  background:rgba(10,10,30,.6);padding:.35rem .8rem;border-radius:99px;pointer-events:none;transition:opacity .6s;}
+.cv-strip{display:flex;gap:.5rem;overflow-x:auto;padding:.6rem 1rem .8rem;background:rgba(255,255,255,.03);border-top:1px solid rgba(255,255,255,.08);scrollbar-width:thin;}
+.cv-strip button{flex:none;width:6.2rem;aspect-ratio:3/2;padding:0;border-radius:8px;overflow:hidden;border:2px solid transparent;cursor:pointer;background:#111;opacity:.55;transition:opacity .15s,border-color .15s,transform .15s;}
+.cv-strip button:hover{opacity:.9;transform:translateY(-2px);}
+.cv-strip button.cur{opacity:1;border-color:var(--gold);}
+.cv-strip img{width:100%;height:100%;object-fit:cover;display:block;}
+@media (max-width:760px){
+  .ctabs{grid-template-columns:1fr;}
+  .ctab{min-width:0;}
+  .cgrid{grid-template-columns:1fr;}
+  .cv-top{padding:.55rem .7rem;gap:.4rem;}
+  .cv-top .ti{flex-basis:100%;}
+  .cv-btn .lbl{display:none;}
+  .cv-nav{width:2.5rem;height:2.5rem;}
+  .cv-nav.prev{left:.4rem;} .cv-nav.next{right:.4rem;}
+  .cv-strip button{width:4.6rem;}
+}
+
 @media (prefers-reduced-motion:reduce){
   .reveal,.rv{animation:none;opacity:1;transform:none;transition:none;}
   .ring,.aurora,.hero-deva,.banner .pattern{animation:none;}
@@ -870,6 +959,11 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:1.2rem;align-items:center;justify-c
   </div>
 </footer>
 
+<script>
+const CHARTS = [{"id": "sources", "set": "iw", "title": "Sources of Knowledge", "q": "How do we actually come to know anything at all?", "theme": "know"}, {"id": "given", "set": "iw", "title": "The Given vs the Constructed", "q": "Is raw experience simply received — or already shaped before we notice it?", "theme": "know"}, {"id": "perception", "set": "iw", "title": "Theory of Perception", "q": "What actually happens when we see, hear, or touch something?", "theme": "know"}, {"id": "error", "set": "iw", "title": "Theory of Error", "q": "When I mistake a rope for a snake — what, exactly, has happened?", "theme": "know"}, {"id": "skepticism", "set": "iw", "title": "Skepticism", "q": "How far should doubt be pushed — and what, if anything, survives it?", "theme": "know"}, {"id": "logic", "set": "iw", "title": "Logic and Inference", "q": "What makes reasoning from evidence to conclusion valid?", "theme": "know"}, {"id": "language", "set": "iw", "title": "Language and Meaning", "q": "What makes a word or sentence mean anything at all?", "theme": "know"}, {"id": "self", "set": "iw", "title": "Nature of the Self / Soul", "q": "Is there a “you” — and if so, what kind of thing is it?", "theme": "self"}, {"id": "consciousness", "set": "iw", "title": "Consciousness", "q": "What kind of thing (if any) is awareness itself?", "theme": "self"}, {"id": "mindbody", "set": "iw", "title": "Mind–Body Relation", "q": "How does thought connect to matter — if at all?", "theme": "self"}, {"id": "substance", "set": "iw", "title": "Substance Theory", "q": "What is a thing, in itself — and what makes it one?", "theme": "meta"}, {"id": "process", "set": "iw", "title": "Substance vs Process / Flux", "q": "Is reality made of enduring things — or patterns within constant change?", "theme": "meta"}, {"id": "moment", "set": "iw", "title": "Momentariness vs Permanence", "q": "Does anything genuinely endure — or is everything replaced, instant by instant?", "theme": "meta"}, {"id": "onemany", "set": "iw", "title": "One vs Many", "q": "Is there ultimately one reality, or genuinely many?", "theme": "meta"}, {"id": "universals", "set": "iw", "title": "Problem of Universals", "q": "When many particular things share one quality — is the “one” real?", "theme": "meta"}, {"id": "cause", "set": "iw", "title": "Cause and Effect", "q": "What actually produces what? Six traditions, one question.", "theme": "meta"}, {"id": "spacetime", "set": "iw", "title": "Space and Time", "q": "Are space and time real containers, or something else?", "theme": "meta"}, {"id": "time", "set": "iw", "title": "Time", "q": "Is time a real feature of the world, or something the mind supplies?", "theme": "meta"}, {"id": "essence", "set": "iw", "title": "Existence Precedes Essence vs Essence-First", "q": "Is what a thing is fixed in advance, or made through its own existing?", "theme": "meta"}, {"id": "god", "set": "iw", "title": "Existence of God / First Cause", "q": "Does the universe require, permit, or refute a Necessary Being?", "theme": "god"}, {"id": "evil", "set": "iw", "title": "Problem of Evil / Suffering", "q": "Why does suffering exist, and what, if anything, justifies it?", "theme": "god"}, {"id": "freewill", "set": "iw", "title": "Free Will and Determinism", "q": "Are our choices genuinely open, or already fixed?", "theme": "ethics"}, {"id": "ethics", "set": "iw", "title": "Ethics / Highest Good", "q": "What is the ultimate goal of a human life?", "theme": "ethics"}, {"id": "pramanas", "set": "ii", "title": "Pramāṇas Compared", "q": "Which schools accept which means of valid knowledge, as independent sources?", "theme": "know"}, {"id": "knowledge5", "set": "ii", "title": "Five Kinds of Knowledge", "q": "Within one school’s system — which knowledge ranks higher, and why?", "theme": "know"}, {"id": "anekanta", "set": "ii", "title": "Anekāntavāda / Syādvāda", "q": "Jainism’s many-sided reality and its sevenfold logic.", "theme": "know"}, {"id": "maya", "set": "ii", "title": "Māyā / Avidyā Across Schools", "q": "How real is the everyday, changing world we experience?", "theme": "meta"}, {"id": "matter", "set": "ii", "title": "Nature of Matter / Substance", "q": "What is physical stuff ultimately made of, and how does it hold together?", "theme": "meta"}, {"id": "jivabrahman", "set": "ii", "title": "Vedānta Spectrum: Jīva–Brahman", "q": "Five schools, one tradition — how does the self relate to ultimate reality?", "theme": "self"}, {"id": "isvara", "set": "ii", "title": "Nature of God / Īśvara", "q": "For the schools that affirm a God — what, exactly, is God?", "theme": "god"}, {"id": "karma", "set": "ii", "title": "Karma and Rebirth Across Schools", "q": "What connects an action now to a consequence later — and is the connection real?", "theme": "ethics"}, {"id": "bondage", "set": "ii", "title": "Bondage and Liberation — the Mechanism", "q": "Not what liberation is, but what actually achieves it.", "theme": "ethics"}, {"id": "ratemp", "set": "ww", "title": "Rationalism vs Empiricism — Overview", "q": "Where does knowledge come from: reason alone, or experience?", "theme": "know"}, {"id": "idealism", "set": "ww", "title": "Idealism’s Three Forms", "q": "Berkeley, Kant, Hegel — one label, three different claims.", "theme": "meta"}, {"id": "refutation", "set": "ww", "title": "Refutation of Idealism — Two Routes", "q": "Kant and Moore: same name, two completely different arguments.", "theme": "meta"}, {"id": "analytic", "set": "ww", "title": "The Analytic–Synthetic Distinction", "q": "Built by Kant, leaned on by the Positivists, demolished by Quine.", "theme": "know"}, {"id": "verification", "set": "ww", "title": "Verification, Meaning and Its Discontents", "q": "The rise and fall of Logical Positivism, told as one story.", "theme": "know"}, {"id": "truth", "set": "ww", "title": "Theories of Truth", "q": "What actually makes a statement true? Correspondence, coherence and pragmatism.", "theme": "know"}, {"id": "atomism", "set": "ww", "title": "Logical Atomism vs Ordinary Language", "q": "Build an ideal language, or study the one we already have?", "theme": "know"}, {"id": "phenomenology", "set": "ww", "title": "Phenomenological Method vs Cartesian Doubt", "q": "Both suspend ordinary belief — toward entirely different ends.", "theme": "know"}, {"id": "existentialism", "set": "ww", "title": "Existentialist Ontology Compared", "q": "Kierkegaard, Heidegger, Sartre — three ways of structuring what it means to exist.", "theme": "self"}];
+const CHART_IMG = {"substance": {"f": "charts/substance.webp", "t": "charts/substance-thumb.webp", "w": 1536, "h": 1024}, "cause": {"f": "charts/cause.webp", "t": "charts/cause-thumb.webp", "w": 1536, "h": 1024}, "consciousness": {"f": "charts/consciousness.webp", "t": "charts/consciousness-thumb.webp", "w": 1536, "h": 1024}, "ethics": {"f": "charts/ethics.webp", "t": "charts/ethics-thumb.webp", "w": 1536, "h": 1024}, "god": {"f": "charts/god.webp", "t": "charts/god-thumb.webp", "w": 1536, "h": 1024}, "essence": {"f": "charts/essence.webp", "t": "charts/essence-thumb.webp", "w": 1536, "h": 1024}, "freewill": {"f": "charts/freewill.webp", "t": "charts/freewill-thumb.webp", "w": 1536, "h": 1024}, "given": {"f": "charts/given.webp", "t": "charts/given-thumb.webp", "w": 1536, "h": 1024}, "language": {"f": "charts/language.webp", "t": "charts/language-thumb.webp", "w": 1536, "h": 1024}, "logic": {"f": "charts/logic.webp", "t": "charts/logic-thumb.webp", "w": 1536, "h": 1024}, "mindbody": {"f": "charts/mindbody.webp", "t": "charts/mindbody-thumb.webp", "w": 1536, "h": 1024}, "moment": {"f": "charts/moment.webp", "t": "charts/moment-thumb.webp", "w": 1536, "h": 1024}, "self": {"f": "charts/self.webp", "t": "charts/self-thumb.webp", "w": 1536, "h": 1024}, "onemany": {"f": "charts/onemany.webp", "t": "charts/onemany-thumb.webp", "w": 1536, "h": 1024}, "evil": {"f": "charts/evil.webp", "t": "charts/evil-thumb.webp", "w": 1536, "h": 1024}, "universals": {"f": "charts/universals.webp", "t": "charts/universals-thumb.webp", "w": 1536, "h": 1024}, "skepticism": {"f": "charts/skepticism.webp", "t": "charts/skepticism-thumb.webp", "w": 1536, "h": 1024}, "sources": {"f": "charts/sources.webp", "t": "charts/sources-thumb.webp", "w": 1536, "h": 1024}, "spacetime": {"f": "charts/spacetime.webp", "t": "charts/spacetime-thumb.webp", "w": 1536, "h": 1024}, "process": {"f": "charts/process.webp", "t": "charts/process-thumb.webp", "w": 1536, "h": 1024}, "error": {"f": "charts/error.webp", "t": "charts/error-thumb.webp", "w": 1536, "h": 1024}, "time": {"f": "charts/time.webp", "t": "charts/time-thumb.webp", "w": 1536, "h": 1024}, "perception": {"f": "charts/perception.webp", "t": "charts/perception-thumb.webp", "w": 1536, "h": 1024}, "pramanas": {"f": "charts/pramanas.webp", "t": "charts/pramanas-thumb.webp", "w": 1536, "h": 1024}, "bondage": {"f": "charts/bondage.webp", "t": "charts/bondage-thumb.webp", "w": 1536, "h": 1024}, "anekanta": {"f": "charts/anekanta.webp", "t": "charts/anekanta-thumb.webp", "w": 1536, "h": 1024}, "jivabrahman": {"f": "charts/jivabrahman.webp", "t": "charts/jivabrahman-thumb.webp", "w": 1536, "h": 1024}, "karma": {"f": "charts/karma.webp", "t": "charts/karma-thumb.webp", "w": 1536, "h": 1024}, "knowledge5": {"f": "charts/knowledge5.webp", "t": "charts/knowledge5-thumb.webp", "w": 1536, "h": 1024}, "maya": {"f": "charts/maya.webp", "t": "charts/maya-thumb.webp", "w": 1536, "h": 1024}, "isvara": {"f": "charts/isvara.webp", "t": "charts/isvara-thumb.webp", "w": 1536, "h": 1024}, "matter": {"f": "charts/matter.webp", "t": "charts/matter-thumb.webp", "w": 1536, "h": 1024}, "truth": {"f": "charts/truth.webp", "t": "charts/truth-thumb.webp", "w": 1536, "h": 1024}, "verification": {"f": "charts/verification.webp", "t": "charts/verification-thumb.webp", "w": 1536, "h": 1024}, "analytic": {"f": "charts/analytic.webp", "t": "charts/analytic-thumb.webp", "w": 1536, "h": 1024}, "existentialism": {"f": "charts/existentialism.webp", "t": "charts/existentialism-thumb.webp", "w": 1536, "h": 1024}, "idealism": {"f": "charts/idealism.webp", "t": "charts/idealism-thumb.webp", "w": 1536, "h": 1024}, "atomism": {"f": "charts/atomism.webp", "t": "charts/atomism-thumb.webp", "w": 1536, "h": 1024}, "phenomenology": {"f": "charts/phenomenology.webp", "t": "charts/phenomenology-thumb.webp", "w": 1536, "h": 1024}, "ratemp": {"f": "charts/ratemp.webp", "t": "charts/ratemp-thumb.webp", "w": 1536, "h": 1024}, "refutation": {"f": "charts/refutation.webp", "t": "charts/refutation-thumb.webp", "w": 1536, "h": 1024}};
+
+</script>
 <script>
 const PARTS = [
   {
@@ -1036,8 +1130,8 @@ function setFs(d){
 }
 
 /* ---------------- nav ---------------- */
-$('#nav').innerHTML = PARTS.map(p=>`<a href="#/part/${p.slug}" data-nav="${p.slug}">${p.name.replace(' Philosophy','')}</a>`).join('')
-  + `<a href="#/syllabus" data-nav="syllabus">Syllabus</a><a href="#/papers" data-nav="papers">Past papers</a><a href="#/practice" data-nav="practice" class="hot">Practice</a>`;
+$('#nav').innerHTML = PARTS.map(p=>`<a href="#/part/${p.slug}" data-nav="${p.slug}">${p.name.replace(' Philosophy','').replace('Philosophy of ','')}</a>`).join('')
+  + `<a href="#/syllabus" data-nav="syllabus">Syllabus</a><a href="#/papers" data-nav="papers">Past papers</a><a href="#/charts" data-nav="charts">Charts</a><a href="#/practice" data-nav="practice" class="hot">Practice</a>`;
 
 $('#menuBtn').onclick = e => {
   const open = $('#nav').classList.toggle('open');
@@ -1153,6 +1247,7 @@ function home(){
     <a class="slab" href="#/syllabus"><span><b>Official syllabus</b><small>Paper I and Paper II, as notified by the UPSC</small></span><span class="arrow">&rarr;</span></a>
     <a class="slab" href="#/papers"><span><b>Previous year papers</b><small>2013 to 2026, both papers</small></span><span class="arrow">&rarr;</span></a>
     <a class="slab" href="#/practice"><span><b>Practice room</b><small>Timed drills, flashcards and PYQ trends</small></span><span class="arrow">&rarr;</span></a>
+    <a class="slab" href="#/charts"><span><b>Revision charts</b><small>${CHARTS.length} comparison charts across all three sets, zoomable</small></span><span class="arrow">&rarr;</span></a>
   </div></section>`;
 }
 
@@ -1739,6 +1834,7 @@ function render(keepScroll){
   else if(path[0]==='papers'){ html = papers(); key='papers'; after = countUp; }
   else if(path[0]==='paper'){ html = paperYear(path[1]); key='papers'; }
   else if(path[0]==='answer'){ html = answerPage(path[1]); key='papers'; }
+  else if(path[0]==='charts'){ html = chartsPage(path[1]); key='charts'; after = bindCharts; }
   else if(path[0]==='practice'){ html = practice(); key='practice'; }
   else if(path[0]==='trends'){ html = trends(); key='practice'; after = bindTrends; }
   else if(path[0]==='drill'){ html = drillPage(path[1]); key='practice'; after = bindDrill; }
@@ -2423,6 +2519,180 @@ async function openDict(word){
   }
   $('#dFind').onclick = ()=>{ closePop(); const q = $('#q'); q.value = word; q.dispatchEvent(new Event('input')); q.focus(); scrollTo({top:0}); };
 }
+
+
+/* ================================================================
+   REVISION CHARTS — three comparison sets, a gallery and a zoomable
+   full-screen viewer. Images live in CHART_IMG (embedded WebP).
+   ================================================================ */
+const CHART_SETS = [
+  {id:'iw', name:'Indian ↔ Western', desc:'The same question, answered across both traditions', cols:['var(--western)','var(--indian)']},
+  {id:'ww', name:'Western ↔ Western', desc:'Western thinkers set against each other', cols:['var(--western)','var(--socio)']},
+  {id:'ii', name:'Indian ↔ Indian', desc:'The darśanas compared school by school', cols:['var(--indian)','var(--religion)']}
+];
+const CHART_THEMES = {
+  know:{name:'Knowledge & Logic', c:'var(--western)'},
+  self:{name:'Self & Mind', c:'var(--indian)'},
+  meta:{name:'Metaphysics', c:'var(--religion)'},
+  god:{name:'God & Evil', c:'var(--socio)'},
+  ethics:{name:'Ethics, Karma & Liberation', c:'#8A4FC4'}
+};
+const chartsIn = set => CHARTS.filter(c=>c.set===set);
+let CREV = store.get('chartRev', {});
+let chartView = {set:'iw', theme:'all', q:''};
+
+function chartsPage(set){
+  if(set && CHART_SETS.some(s=>s.id===set)) chartView.set = set;
+  const S = CHART_SETS.find(s=>s.id===chartView.set), list = chartsIn(S.id);
+  const done = list.filter(c=>CREV[c.id]).length;
+  return `<section class="page"><div class="wrap">
+    <div class="banner night">${PATTERN}<div class="banner-in"><div>
+      <div class="crumb"><a href="#/">Home</a> · Revision charts</div>
+      <div class="num">QUICK REVISION</div>
+      <h1 class="title">Philosophy charts</h1>
+      <p class="blurb">One question per chart, every school's answer on a single page, with the connections drawn out. Open a chart to zoom in, then tick it off once it's revised.</p>
+    </div>${ringProg(done, list.length||1, list.length ? `${done} of ${list.length} revised` : 'coming soon')}</div></div>
+
+    <div class="ctabs">${CHART_SETS.map(s=>{ const n = chartsIn(s.id).length; return `
+      <button class="ctab${s.id===S.id?' on':''}${n?'':' soon'}" data-cset="${s.id}">
+        <span class="pair-ic">${s.cols.map(c=>`<i style="background:${c}"></i>`).join('')}</span>
+        <span><b>${s.name}</b><small>${n ? `${n} charts` : 'Coming soon'} · ${s.desc}</small></span></button>`; }).join('')}</div>
+
+    ${list.length ? `<div class="cfilters">
+      <button class="chip${chartView.theme==='all'?' on':''}" data-ctheme="all">All (${list.length})</button>
+      ${Object.entries(CHART_THEMES).filter(([k])=>list.some(c=>c.theme===k)).map(([k,t])=>
+        `<button class="chip${chartView.theme===k?' on':''}" data-ctheme="${k}" style="--c:${t.c}">${t.name} (${list.filter(c=>c.theme===k).length})</button>`).join('')}
+      <span class="sp"></span><input id="cq" type="search" placeholder="Find a chart…" value="${esc(chartView.q)}" aria-label="Find a chart">
+    </div>
+    <div class="cgrid" id="cgrid">${chartCards(list)}</div>`
+    : `<div class="soon-box"><b>${S.name} charts are on the way</b><p>Send them over and they'll appear here, ready to zoom and revise.</p></div>`}
+  </div></section>`;
+}
+function chartCards(list){
+  const q = chartView.q.trim().toLowerCase();
+  const shown = list.filter(c=>(chartView.theme==='all' || c.theme===chartView.theme) && (!q || (c.title+' '+c.q).toLowerCase().includes(q)));
+  if(!shown.length) return `<div class="soon-box" style="grid-column:1/-1"><b>No chart matches that</b><p>Try another word or theme.</p></div>`;
+  return shown.map(c=>{ const t = CHART_THEMES[c.theme], i = CHARTS.indexOf(c), n = chartsIn(c.set).indexOf(c)+1;
+    return `<button class="chart${CREV[c.id]?' revised':''}" data-chart="${c.id}" style="--c:${t.c}">
+      <span class="thumb"><span class="num">${n}</span><span class="done-b">${ICON.check.replace('<svg','<svg style="width:.8rem;height:.8rem;fill:none;stroke:#fff;stroke-width:2.4"')} Revised</span>
+        <img src="${CHART_IMG[c.id].t}" alt="${esc(c.title)} chart" loading="lazy"><span class="zoom">⤢ Open &amp; zoom</span></span>
+      <span class="body"><span class="tag">${t.name}</span><h3>${esc(c.title)}</h3><p>${esc(c.q)}</p></span></button>`; }).join('');
+}
+function bindCharts(){
+  $$('[data-cset]').forEach(b=>b.onclick = ()=>{ chartView.set = b.dataset.cset; chartView.theme = 'all'; chartView.q = ''; location.hash = '#/charts/'+b.dataset.cset; });
+  $$('[data-ctheme]').forEach(b=>b.onclick = ()=>{ chartView.theme = b.dataset.ctheme;
+    $$('[data-ctheme]').forEach(x=>x.classList.toggle('on', x===b)); $('#cgrid').innerHTML = chartCards(chartsIn(chartView.set)); revealAll(); });
+  const q = $('#cq'); if(q) q.oninput = ()=>{ chartView.q = q.value; $('#cgrid').innerHTML = chartCards(chartsIn(chartView.set)); };
+  paintRings();
+}
+
+/* ---------- viewer ---------- */
+const cv = document.createElement('div'); cv.className = 'cv'; cv.hidden = true; cv.setAttribute('role','dialog'); cv.setAttribute('aria-label','Chart viewer');
+document.body.appendChild(cv);
+const CV = {list:[], i:0, s:1, x:0, y:0, fit:1, w:0, h:0};
+function openChart(id){
+  const c = CHARTS.find(x=>x.id===id); if(!c) return;
+  const base = chartsIn(c.set), q = chartView.q.trim().toLowerCase();
+  CV.list = base.filter(x=>(chartView.theme==='all' || x.theme===chartView.theme) && (!q || (x.title+' '+x.q).toLowerCase().includes(q)));
+  if(!CV.list.includes(c)) CV.list = base;
+  CV.i = CV.list.indexOf(c);
+  cv.innerHTML = `<div class="cv-top">
+      <div class="ti"><small id="cvCount"></small><b id="cvTitle"></b></div>
+      <span class="cv-zoom"><button id="cvOut" aria-label="Zoom out">−</button><span id="cvPct">100%</span><button id="cvIn" aria-label="Zoom in">+</button></span>
+      <button class="cv-btn" id="cvFit">${ICON.grid}<span class="lbl">Fit</span></button>
+      <button class="cv-btn" id="cvRev">${ICON.check}<span class="lbl">Mark revised</span></button>
+      <a class="cv-btn ico" id="cvDl" title="Download this chart" download><svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></a>
+      <button class="cv-btn ico" id="cvClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="cv-stage" id="cvStage"><img id="cvImg" alt="">
+      <button class="cv-nav prev" id="cvPrev" aria-label="Previous chart">‹</button><button class="cv-nav next" id="cvNext" aria-label="Next chart">›</button>
+      <div class="cv-hint" id="cvHint">Scroll or pinch to zoom · drag to move · double-click to zoom in · ← → for next chart</div></div>
+    <div class="cv-strip" id="cvStrip">${CV.list.map((x,k)=>`<button data-cvi="${k}" title="${esc(x.title)}"><img src="${CHART_IMG[x.id].t}" alt=""></button>`).join('')}</div>`;
+  cv.hidden = false; document.body.style.overflow = 'hidden';
+  $('#cvClose').onclick = closeChart;
+  $('#cvPrev').onclick = ()=>stepChart(-1); $('#cvNext').onclick = ()=>stepChart(1);
+  $('#cvIn').onclick = ()=>zoomBy(1.35); $('#cvOut').onclick = ()=>zoomBy(1/1.35); $('#cvFit').onclick = ()=>fitChart(true);
+  $('#cvRev').onclick = toggleChartRev;
+  $$('#cvStrip [data-cvi]').forEach(b=>b.onclick = ()=>{ CV.i = +b.dataset.cvi; showChart(); });
+  bindStage();
+  showChart();
+  setTimeout(()=>{ const h = $('#cvHint'); if(h) h.style.opacity = 0; }, 3500);
+  logActivity();
+}
+function closeChart(){ cv.hidden = true; cv.innerHTML = ''; document.body.style.overflow = ''; if(/^#\/charts/.test(location.hash)) render(true); }
+function stepChart(d){ CV.i = (CV.i + d + CV.list.length) % CV.list.length; showChart(); }
+function showChart(){
+  const c = CV.list[CV.i], im = CHART_IMG[c.id], img = $('#cvImg');
+  CV.w = im.w; CV.h = im.h;
+  img.width = im.w; img.height = im.h; img.src = im.f; img.alt = c.title + ' chart';
+  $('#cvTitle').textContent = c.title;
+  $('#cvCount').textContent = `${CHART_SETS.find(s=>s.id===c.set).name} · ${CHART_THEMES[c.theme].name} · ${CV.i+1} of ${CV.list.length}`;
+  $('#cvDl').href = im.f; $('#cvDl').setAttribute('download', c.title.replace(/[^\w]+/g,'-').replace(/^-|-$/g,'') + '.webp');
+  paintRevBtn();
+  $$('#cvStrip [data-cvi]').forEach((b,k)=>b.classList.toggle('cur', k===CV.i));
+  $(`#cvStrip [data-cvi="${CV.i}"]`)?.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'});
+  fitChart(false);
+}
+function paintRevBtn(){ const c = CV.list[CV.i], on = !!CREV[c.id], b = $('#cvRev');
+  b.classList.toggle('on', on); b.querySelector('.lbl').textContent = on ? 'Revised' : 'Mark revised'; }
+function toggleChartRev(){
+  const c = CV.list[CV.i];
+  if(CREV[c.id]) delete CREV[c.id]; else { CREV[c.id] = 1; const r = $('#cvRev').getBoundingClientRect(); burst(r.left + r.width/2, r.top + r.height/2, 30); }
+  store.set('chartRev', CREV); paintRevBtn(); logActivity();
+}
+function applyT(anim){
+  const st = $('#cvStage'), img = $('#cvImg'); if(!img) return;
+  st.classList.toggle('anim', !!anim);
+  img.style.transform = `translate(${CV.x}px,${CV.y}px) scale(${CV.s})`;
+  $('#cvPct').textContent = Math.round(CV.s / CV.fit * 100) + '%';
+}
+function clampT(){
+  const st = $('#cvStage'), W = st.clientWidth, H = st.clientHeight, w = CV.w*CV.s, h = CV.h*CV.s;
+  CV.x = w <= W ? (W - w)/2 : Math.min(40, Math.max(W - w - 40, CV.x));
+  CV.y = h <= H ? (H - h)/2 : Math.min(40, Math.max(H - h - 40, CV.y));
+}
+function fitChart(anim){
+  const st = $('#cvStage'); if(!st) return;
+  const W = st.clientWidth - 24, H = st.clientHeight - 24;
+  CV.fit = CV.s = Math.min(W/CV.w, H/CV.h);
+  CV.x = (st.clientWidth - CV.w*CV.s)/2; CV.y = (st.clientHeight - CV.h*CV.s)/2; applyT(anim);
+}
+function zoomAt(f, px, py, anim){
+  const ns = Math.min(CV.fit*6, Math.max(CV.fit*.8, CV.s*f)); const k = ns/CV.s;
+  CV.x = px - (px - CV.x)*k; CV.y = py - (py - CV.y)*k; CV.s = ns; clampT(); applyT(anim);
+}
+function zoomBy(f){ const st = $('#cvStage'); zoomAt(f, st.clientWidth/2, st.clientHeight/2, true); }
+function bindStage(){
+  const st = $('#cvStage'); const pts = new Map(); let last = null, pinch = null, moved = false;
+  st.addEventListener('wheel', e=>{ e.preventDefault(); const r = st.getBoundingClientRect();
+    zoomAt(Math.exp(-e.deltaY*0.0015), e.clientX - r.left, e.clientY - r.top, false); }, {passive:false});
+  st.addEventListener('pointerdown', e=>{ if(e.target.closest('.cv-nav')) return; st.setPointerCapture(e.pointerId); pts.set(e.pointerId, {x:e.clientX, y:e.clientY});
+    moved = false; if(pts.size===1){ last = {x:e.clientX, y:e.clientY}; st.classList.add('drag'); }
+    if(pts.size===2){ const [a,b] = [...pts.values()]; pinch = {d:Math.hypot(a.x-b.x, a.y-b.y)}; } });
+  st.addEventListener('pointermove', e=>{ if(!pts.has(e.pointerId)) return; pts.set(e.pointerId, {x:e.clientX, y:e.clientY});
+    const r = st.getBoundingClientRect();
+    if(pts.size===2 && pinch){ const [a,b] = [...pts.values()], d = Math.hypot(a.x-b.x, a.y-b.y);
+      zoomAt(d/pinch.d, (a.x+b.x)/2 - r.left, (a.y+b.y)/2 - r.top, false); pinch.d = d; moved = true; return; }
+    if(last){ const dx = e.clientX - last.x, dy = e.clientY - last.y; if(Math.abs(dx)+Math.abs(dy) > 2) moved = true;
+      CV.x += dx; CV.y += dy; last = {x:e.clientX, y:e.clientY}; clampT(); applyT(false); } });
+  const up = e=>{ pts.delete(e.pointerId); if(pts.size<2) pinch = null; if(!pts.size){ last = null; st.classList.remove('drag'); } else { const p = [...pts.values()][0]; last = {x:p.x, y:p.y}; } };
+  st.addEventListener('pointerup', up); st.addEventListener('pointercancel', up);
+  st.addEventListener('dblclick', e=>{ if(e.target.closest('.cv-nav')) return; const r = st.getBoundingClientRect();
+    if(CV.s > CV.fit*1.5) fitChart(true); else zoomAt(2.6*CV.fit/CV.s, e.clientX - r.left, e.clientY - r.top, true); });
+  addEventListener('resize', ()=>{ if(!cv.hidden) fitChart(false); });
+}
+addEventListener('keydown', e=>{
+  if(cv.hidden) return;
+  if(e.key==='Escape'){ e.stopImmediatePropagation(); closeChart(); }
+  else if(e.key==='ArrowRight'){ e.preventDefault(); stepChart(1); }
+  else if(e.key==='ArrowLeft'){ e.preventDefault(); stepChart(-1); }
+  else if(e.key==='+' || e.key==='='){ zoomBy(1.35); }
+  else if(e.key==='-'){ zoomBy(1/1.35); }
+  else if(e.key==='0'){ fitChart(true); }
+  else if(e.key==='r' || e.key==='R'){ toggleChartRev(); }
+  e.stopImmediatePropagation();
+}, true);
+document.addEventListener('click', e=>{ const b = e.target.closest('[data-chart]'); if(b){ e.preventDefault(); openChart(b.dataset.chart); } });
 
 if(store.get('practice', false)) document.body.classList.add('practice-on');
 paintStreak();

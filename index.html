@@ -859,6 +859,19 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:1.2rem;align-items:center;justify-c
 .dact{display:flex;gap:.9rem;margin-top:.6rem;}
 .dlink{background:none;border:none;padding:0;cursor:pointer;font-family:var(--sans);font-size:.72rem;font-weight:600;color:var(--c,var(--accent));}
 .dlink:hover{text-decoration:underline;}
+.sel-tip button.pd{background:linear-gradient(135deg,rgba(243,194,94,.28),rgba(243,194,94,.12));}
+.sel-tip button.pd:hover{background:rgba(243,194,94,.38);}
+.pd-o{font-family:var(--deva),var(--serif);font-size:1rem;color:#F1DFAF;}
+.sel-tip .l-short{display:none;}
+@media (max-width:560px){.sel-tip button{padding-left:.55rem;padding-right:.55rem;font-size:.74rem;gap:.3rem;}.sel-tip .l-long{display:none;}.sel-tip .l-short{display:inline;}}
+.pd-meta{display:flex;flex-wrap:wrap;gap:.35rem;margin:0 0 .9rem;}
+.pd-meta span{font-family:var(--sans);font-size:.7rem;color:var(--ink-soft);padding:.15rem .6rem;border-radius:99px;background:var(--paper-2);border:1px solid var(--rule);}
+.pd-meta .pd-part{color:#fff;background:var(--c);border-color:var(--c);font-weight:600;}
+.pd-def{font-size:1.08rem;line-height:1.7;margin:0;}
+.pd-rel{margin-top:1.1rem;padding-top:.9rem;border-top:1px dashed var(--rule);display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;}
+.pd-rel small{width:100%;font-family:var(--sans);font-size:.66rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);}
+.pd-rel button{font-family:var(--sans);font-size:.76rem;padding:.25rem .65rem;border-radius:99px;border:1px solid var(--rule);background:var(--paper);color:var(--accent);cursor:pointer;}
+.pd-rel button:hover{border-color:var(--accent);}
 .pop-b .dloc{margin:0 0 1rem;padding:.9rem 1rem;border-radius:14px;border:1px solid color-mix(in srgb,var(--gold) 55%,var(--rule));background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 14%,var(--paper)),var(--paper));}
 .pop-b .dloc small{display:block;font-family:var(--sans);font-size:.66rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#8A5D06;margin-bottom:.2rem;}
 .pop-b .dloc b{font-family:var(--display);font-size:1.1rem;}
@@ -2333,11 +2346,12 @@ const SICON = {
   lang:'<svg viewBox="0 0 24 24"><path d="M3 5h10M8 3v2M5 5c1 4 4 7 7 8M11 5c-1 4-4 7-7 9"/><path d="M13 21l4-10 4 10M14.5 17h5"/></svg>',
   x:'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>',
   copy:'<svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>',
+  owl:'<svg viewBox="0 0 24 24"><path d="M12 4 3 8.5 12 13l9-4.5L12 4Z"/><path d="M7 10.5V15c0 1.4 2.2 3 5 3s5-1.6 5-3v-4.5M21 8.5V14"/></svg>',
   speak:'<svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>'
 };
 const tip = document.createElement('div'); tip.className = 'sel-tip'; tip.hidden = true; document.body.appendChild(tip);
 const popScrim = document.createElement('div'); popScrim.className = 'pop-scrim'; popScrim.hidden = true; document.body.appendChild(popScrim);
-let selText = '', popOpen = false, lastFocus = null;
+let selText = '', selTerm = null, popOpen = false, lastFocus = null;
 
 const cleanWord = s => s.replace(/^[^\p{L}]+|[^\p{L}]+$/gu,'');
 function readSelection(){
@@ -2353,13 +2367,18 @@ function showTip(){
   const s = readSelection(); if(!s){ tip.hidden = true; return; }
   selText = s.text;
   const w = cleanWord(s.text), single = !/\s/.test(s.text) && /^[\p{L}'’-]{2,40}$/u.test(w);
+  /* Words and short phrases that are in the site's own philosophy dictionary get a third option. */
+  const words = s.text.split(/\s+/).length;
+  selTerm = words <= 6 && s.text.length <= 60 ? dictExact(s.text.replace(/^[^\p{L}]+|[^\p{L})]+$/gu,'')) : null;
+  const pd = selTerm ? `<button data-act="pdict" class="pd">${SICON.owl} <span class="l-long">Philosophy dictionary</span><span class="l-short">Phil. dictionary</span></button>` : '';
   tip.innerHTML = single
-    ? `<button data-act="dict">${SICON.book} Meaning</button><button data-act="tr">${SICON.lang} Translation</button>`
-    : `<button data-act="tr">${SICON.lang} See translation</button>`;
+    ? `<button data-act="dict">${SICON.book} Meaning</button><button data-act="tr">${SICON.lang} Translation</button>${pd}`
+    : `${pd}<button data-act="tr">${SICON.lang} ${pd ? 'Translation' : 'See translation'}</button>`;
   const touch = matchMedia('(hover:none)').matches;
   const below = touch || s.rect.top < 90;
   tip.classList.toggle('below', below);
-  const x = Math.min(innerWidth-90, Math.max(90, s.rect.left + s.rect.width/2));
+  tip.hidden = false; const half = Math.max(90, tip.offsetWidth/2 + 8);
+  const x = Math.min(innerWidth-half, Math.max(half, s.rect.left + s.rect.width/2));
   tip.style.left = x+'px';
   tip.style.top = (below ? s.rect.bottom + (touch ? 34 : 10) : s.rect.top - 10)+'px';
   tip.hidden = false;
@@ -2375,7 +2394,9 @@ tip.addEventListener('mousedown', e=>e.preventDefault());
 tip.addEventListener('click', e=>{
   const b = e.target.closest('[data-act]'); if(!b) return;
   tip.hidden = true;
-  if(b.dataset.act==='dict') openDict(cleanWord(selText)); else openTranslate(selText);
+  if(b.dataset.act==='dict') openDict(cleanWord(selText));
+  else if(b.dataset.act==='pdict') openPhilDict(selTerm);
+  else openTranslate(selText);
 });
 
 function openPop(html){
@@ -2700,6 +2721,29 @@ async function openDict(word){
   $('#dFind').onclick = ()=>{ closePop(); const q = $('#q'); q.value = word; q.dispatchEvent(new Event('input')); q.focus(); scrollTo({top:0}); };
 }
 
+
+/* The site's own philosophy dictionary, in the same pop-up box. */
+function openPhilDict(e){
+  if(!e) return;
+  const P = DPARTS[e.p];
+  /* Related: terms this definition mentions, terms whose definitions mention this one, then same tradition. */
+  const me = e.alts.filter(a=>a.length>3), fd = fold(e.d);
+  const mentions = x => x.alts.some(a=>a.length>3 && new RegExp('\\b'+a.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b').test(fd));
+  const mentioned = x => me.some(a=>new RegExp('\\b'+a.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b').test(x.fd));
+  const pool = DICTIONARY.filter(x=>x!==e);
+  const related = [...new Set([...pool.filter(mentions), ...pool.filter(mentioned), ...pool.filter(x=>x.p===e.p && e.s && x.s===e.s)])].slice(0,6);
+  openPop(`${popHead('Philosophy dictionary', e.t, e.o ? `<span class="pd-o">${esc(e.o)}</span>` : '', SICON.owl)}
+    <div class="pop-b" id="popBody">
+      <div class="pd-meta" style="--c:${P.c}"><span class="pd-part">${P.name}</span>${e.s?`<span>${esc(e.s)}</span>`:''}${e.a?`<span>${esc(e.a)}</span>`:''}</div>
+      <p class="pd-def">${esc(e.d)}</p>
+      ${related.length ? `<div class="pd-rel"><small>Related terms</small>${related.map(x=>`<button data-pdterm="${esc(x.t)}">${esc(x.t)}</button>`).join('')}</div>` : ''}
+    </div>
+    <div class="pop-f"><span class="note-s">From Darśana's philosophy dictionary · ${DICTIONARY.length} terms</span>
+      <button class="btn small" id="pdSpeak">${SICON.speak} Pronounce</button><a class="btn small" id="pdOpen" href="#/dictionary/${encodeURIComponent(e.t.split('/')[0].trim())}">Open in dictionary</a></div>`);
+  $('#pdSpeak').onclick = ()=>speak(e.t.split('/')[0]);
+  $('#pdOpen').onclick = ()=>closePop();
+  $$('[data-pdterm]').forEach(b=>b.onclick = ()=>{ const x = DICTIONARY.find(d=>d.t===b.dataset.pdterm); closePop(); openPhilDict(x); });
+}
 
 /* ================================================================
    REVISION CHARTS — three comparison sets, a gallery and a zoomable

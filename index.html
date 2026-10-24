@@ -1067,6 +1067,104 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:1.2rem;align-items:center;justify-c
   .ph-grid{grid-template-columns:1fr;}
   .ph-filters .sp{display:none;}
 }
+
+/* ---------- Plato's dialogues ---------- */
+.dl-cont{display:flex;align-items:center;gap:.8rem;text-decoration:none;color:var(--ink);padding:.8rem 1rem;border-radius:14px;margin:0 0 1rem;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 22%,var(--paper)),var(--paper));border:1px solid color-mix(in srgb,var(--gold) 50%,var(--rule));}
+.dl-cont span{font-family:var(--sans);font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8A5D06;}
+.dl-cont b{font-family:var(--display);font-size:1.05rem;font-weight:600;flex:1;}
+.dl-cont em{font-style:normal;color:#8A5D06;}
+.dl-g{font-family:var(--sans);font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin:1.4rem 0 .6rem;}
+.dl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(16rem,1fr));gap:.6rem;}
+.dl-card{display:flex;gap:.8rem;padding:.85rem 1rem;border-radius:14px;border:1px dashed var(--rule);background:var(--paper-2);color:var(--ink-soft);text-decoration:none;}
+.dl-card.on{border:1px solid color-mix(in srgb,var(--c) 40%,var(--rule));background:var(--paper);color:var(--ink);transition:transform .2s,box-shadow .2s;}
+.dl-card.on:hover{transform:translateY(-2px);box-shadow:0 18px 34px -26px var(--shadow);}
+.dl-n{font-family:var(--display);font-weight:600;font-size:.95rem;color:var(--ink-faint);min-width:1.4rem;}
+.dl-card.on .dl-n{color:var(--c);}
+.dl-b{display:flex;flex-direction:column;gap:.25rem;min-width:0;}
+.dl-b b{font-family:var(--display);font-size:1.08rem;font-weight:600;line-height:1.2;}
+.dl-b b small{font-family:var(--deva);font-weight:400;font-size:.85rem;color:var(--c);}
+.dl-b > span:not(.dl-tags){font-size:.88rem;line-height:1.45;}
+.dl-tags{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.2rem;}
+.dl-tags i{font-style:normal;font-family:var(--sans);font-size:.6rem;font-weight:600;padding:.1rem .45rem;border-radius:99px;background:var(--paper-2);color:var(--ink-soft);}
+.dl-card.on .dl-tags i{background:color-mix(in srgb,var(--c) 12%,var(--paper));color:var(--c);}
+.dl-tags i.sy{background:color-mix(in srgb,var(--gold) 25%,var(--paper));color:#8A5D06;}
+.dl-tags i.soon{background:none;border:1px solid var(--rule);color:var(--ink-faint);}
+/* reader */
+.dl-banner{padding-bottom:2rem;}
+.dl-banner > *{position:relative;}
+.dl-hi{font-family:var(--deva);font-size:1.3rem;color:#F1DFAF;margin:-.2rem 0 .6rem;}
+.dl-facts{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem;}
+.dl-facts span{font-family:var(--sans);font-size:.72rem;color:#E6E1F5;padding:.25rem .7rem;border-radius:99px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);}
+.dl-bar{position:sticky;top:4rem;z-index:30;display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;padding:.6rem .7rem;margin:0 0 1rem;border-radius:16px;
+  background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--rule);box-shadow:0 12px 30px -26px var(--shadow);}
+.dl-bar .sp{flex:1;}
+.dl-seg{display:inline-flex;padding:3px;border-radius:99px;background:var(--paper-2);border:1px solid var(--rule);}
+.dl-seg button{border:none;background:none;cursor:pointer;font-family:var(--sans);font-size:.8rem;font-weight:500;padding:.4rem .95rem;border-radius:99px;color:var(--ink-soft);}
+.dl-seg button[lang="hi"]{font-family:var(--deva);font-size:.9rem;}
+.dl-seg button.on{background:var(--ink);color:var(--paper);box-shadow:0 4px 10px -6px rgba(0,0,0,.5);}
+.dl-tog{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--sans);font-size:.78rem;color:var(--ink-soft);cursor:pointer;user-select:none;}
+.dl-tog input{position:absolute;opacity:0;pointer-events:none;}
+.dl-tog span{width:2.1rem;height:1.2rem;border-radius:99px;background:var(--paper-3);position:relative;transition:background .2s;flex:none;}
+.dl-tog span::after{content:"";position:absolute;left:.15rem;top:.15rem;width:.9rem;height:.9rem;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s;}
+.dl-tog input:checked + span{background:var(--accent);}
+.dl-tog input:checked + span::after{transform:translateX(.9rem);}
+.dl-tog input:focus-visible + span{outline:2px solid var(--accent);outline-offset:2px;}
+.dl-tocbtn{display:none;}
+.dl-about{margin:0 0 1.6rem;border:1px solid var(--rule);border-radius:16px;background:var(--paper);padding:.2rem 1.1rem;}
+.dl-about summary{cursor:pointer;font-family:var(--sans);font-size:.82rem;font-weight:600;color:var(--accent);padding:.7rem 0;}
+.dl-about p{font-size:.98rem;line-height:1.65;margin:0 0 .8rem;}
+.dl-terms{display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:.5rem;margin:.4rem 0 1rem;}
+.dl-terms div{display:flex;flex-direction:column;padding:.55rem .7rem;border-radius:10px;background:var(--paper-2);}
+.dl-terms b{font-family:var(--sans);font-size:.78rem;font-weight:600;}
+.dl-terms i{font-family:var(--serif);font-size:.85rem;color:var(--ink-soft);}
+.dl-terms span{font-family:var(--deva);font-size:.95rem;color:var(--accent);}
+.dl-wrap{display:grid;grid-template-columns:15rem minmax(0,1fr);gap:2.2rem;align-items:start;}
+.dl-toc{position:sticky;top:8.6rem;max-height:calc(100vh - 10rem);overflow:auto;padding-right:.3rem;scrollbar-width:thin;}
+.dl-toc-h{font-family:var(--sans);font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 .5rem;}
+.dl-toc a{display:flex;gap:.55rem;align-items:baseline;text-decoration:none;color:var(--ink-soft);font-size:.84rem;line-height:1.35;padding:.35rem .5rem;border-radius:8px;border-left:2px solid transparent;}
+.dl-toc a i{font-style:normal;font-family:var(--sans);font-size:.66rem;font-weight:700;color:var(--ink-faint);min-width:2.3rem;}
+.dl-toc a:hover{background:var(--paper-2);color:var(--ink);}
+.dl-toc a.cur{background:color-mix(in srgb,var(--accent) 10%,var(--paper));color:var(--ink);border-left-color:var(--accent);}
+.dl-toc a.cur i{color:var(--accent);}
+.dl-body{min-width:0;}
+.dl-sec{margin:0 0 2.6rem;scroll-margin-top:9rem;}
+.dl-sec h2{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem .7rem;font-family:var(--display);font-size:1.45rem;font-weight:600;line-height:1.25;margin:0 0 1rem;padding-bottom:.6rem;border-bottom:1px solid var(--rule);}
+.dl-sec h2 [lang="hi"], .dl-sec h2 small[lang="hi"]{font-family:var(--deva);}
+.dl-sec h2 small{flex-basis:100%;font-size:1rem;font-weight:400;color:var(--ink-soft);}
+.dl-tag{font-family:var(--sans);font-size:.72rem;font-weight:700;color:#fff;background:var(--accent);padding:.15rem .55rem;border-radius:6px;transform:translateY(-.2rem);}
+.dl-txt p{margin:0 0 .85rem;font-size:calc(1.08rem * var(--fs));line-height:1.78;}
+.dl-txt.v-hi p{font-family:var(--deva);font-size:calc(1.12rem * var(--fs));line-height:1.95;}
+.dl-sp{font-family:var(--sans);font-size:.72em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-right:.15rem;}
+.dl-txt.v-hi .dl-sp{text-transform:none;letter-spacing:0;font-family:var(--deva);font-size:.9em;}
+.dl-verse{font-style:italic;padding-left:1.6rem;color:var(--ink-soft);}
+.dl-note{font-family:var(--sans)!important;font-size:.88rem!important;line-height:1.6!important;padding:.8rem 1rem;border-radius:12px;background:color-mix(in srgb,var(--gold) 16%,var(--paper));border-left:3px solid var(--gold);}
+.dl-par .dl-row{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;padding:.2rem 0;border-bottom:1px dashed color-mix(in srgb,var(--rule) 70%,transparent);margin-bottom:.6rem;}
+.dl-par .dl-row:last-child{border-bottom:none;}
+.dl-par .dl-txt p{font-size:calc(1rem * var(--fs));}
+.dl-par .dl-txt.v-hi p{font-size:calc(1.04rem * var(--fs));}
+.dl-wrap.par{grid-template-columns:12rem minmax(0,1fr);gap:1.6rem;}
+.dl-end{text-align:center;font-family:var(--display);font-size:1.4rem;color:var(--ink-faint);margin:3rem 0 1rem;}
+.dl-end span{display:block;font-family:var(--sans);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;margin-top:.4rem;}
+@media (max-width:1100px){
+  .dl-wrap.par{grid-template-columns:1fr;}
+  .dl-wrap.par .dl-toc{display:none;}
+  .dl-wrap.par .dl-toc.open{display:block;}
+}
+@media (max-width:900px){
+  .dl-wrap{grid-template-columns:1fr;}
+  .dl-tocbtn{display:inline-flex;}
+  .dl-toc{display:none;position:fixed;left:1rem;right:1rem;top:auto;bottom:1rem;max-height:60vh;z-index:60;background:var(--paper);border:1px solid var(--rule);border-radius:18px;padding:1rem;box-shadow:0 30px 60px -20px rgba(0,0,0,.5);}
+  .dl-toc.open{display:block;}
+  .dl-wrap.par .dl-toc.open{display:block;}
+}
+@media (max-width:760px){
+  .dl-bar{position:static;}
+  .dl-par .dl-row{grid-template-columns:1fr;gap:.3rem;}
+  .dl-par .dl-row .dl-txt + .dl-txt{padding-left:.8rem;border-left:2px solid var(--rule);}
+  .dl-tog{font-size:.72rem;}
+  .dl-bar .fsz{display:none;}
+}
 </style>
 </head>
 <body>
@@ -1999,6 +2097,7 @@ function render(keepScroll){
   else if(path[0]==='dictionary'){ html = dictionaryPage(path.slice(1).join('/')); key='dictionary'; after = bindDict; }
   else if(path[0]==='philosophers'){ html = philosophersPage(); key='philosophers'; after = bindPh; }
   else if(path[0]==='philosopher'){ html = philosopherPage(path[1]); key='philosophers'; after = photosNow; }
+  else if(path[0]==='read'){ html = readerPage(path[1], path[2]); key='philosophers'; after = bindReader; }
   else if(path[0]==='charts'){ html = chartsPage(path[1]); key='charts'; after = bindCharts; }
   else if(path[0]==='practice'){ html = practice(); key='practice'; }
   else if(path[0]==='trends'){ html = trends(); key='practice'; after = bindTrends; }
@@ -3173,6 +3272,7 @@ function philosopherPage(id){
         ${p.more.length ? `<section class="ph-sec"><h2><span>03</span>If you want to go deeper</h2>
           <p class="sub" style="margin:-.4rem 0 1rem">Other major works — not needed for the exam, but where the thinker is at full strength.</p>
           <div class="ph-more">${p.more.map(m=>`<span>${esc(m)}</span>`).join('')}</div></section>` : ''}
+        ${p.id==='plato' ? platoWorksBlock() : ''}
       </div>
       <aside class="ph-side">
         ${tops ? `<div class="ph-box"><h3>In the notes</h3>${tops}</div>` : ''}
@@ -3190,6 +3290,166 @@ function philosopherPage(id){
 
 DICTIONARY.forEach(e=>{ const x = {title:e.t, syl:'', part:`Dictionary · ${DPARTS[e.p].name}${e.s?' · '+e.s:''}`, color:DPARTS[e.p].c, href:`#/dictionary/${encodeURIComponent(e.t.split('/')[0].trim())}`};
   x.f = fold(x.title+' '+e.o+' '+x.part); INDEX.splice(40, 0, x); });
+/* ================================================================
+   PLATO'S DIALOGUES — a reading room inside Plato's profile.
+   Each translated dialogue lives in its own file (plato-<slug>.js),
+   loaded only when opened, in three versions: Jowett's English,
+   Hinglish and Hindi, section by section with Stephanus tags.
+   ================================================================ */
+const PLATO_WORKS = [
+  {s:'euthyphro', n:'Euthyphro', hi:'यूथिफ्रो', g:'Trial and death', q:'What is piety? Is the holy loved by the gods because it is holy, or holy because it is loved?', syl:'Religion and Morality', ok:1},
+  {s:'apology', n:'Apology', hi:'सुकरात का बचाव', g:'Trial and death', q:"Socrates' speech in his own defence at his trial in 399 BCE: the gadfly and the unexamined life.", ok:1},
+  {s:'crito', n:'Crito', hi:'क्रीटो', g:'Trial and death', q:'Should Socrates escape from prison? Justice, agreement and obedience to the laws.', syl:'Individual and State', ok:1},
+  {s:'phaedo', n:'Phaedo', hi:'फ़ीडो', g:'Trial and death', q:'The last day of Socrates and four arguments for the immortality of the soul.', syl:'Plato: Ideas; Soul', ok:1},
+  {s:'cratylus', n:'Cratylus', hi:'क्रेटिलस', g:'Language and knowledge', q:'Are names correct by nature or by convention?', ok:1},
+  {s:'theaetetus', n:'Theaetetus', g:'Language and knowledge', q:'What is knowledge? Perception, true belief, and true belief with an account.', syl:'Theory of Knowledge'},
+  {s:'sophist', n:'Sophist', g:'Language and knowledge', q:'What is a sophist? Being, not-being and the possibility of falsehood.'},
+  {s:'statesman', n:'Statesman', g:'Language and knowledge', q:'The art of ruling, and the weaver as the model of the true statesman.'},
+  {s:'parmenides', n:'Parmenides', g:'Language and knowledge', q:"The young Socrates' theory of Forms under attack, including the Third Man.", syl:'Plato: Ideas'},
+  {s:'philebus', n:'Philebus', g:'Language and knowledge', q:'Is the good life one of pleasure, of knowledge, or a mixture of both?'},
+  {s:'symposium', n:'Symposium', g:'Love and the soul', q:"Speeches in praise of love, ending with Diotima's ladder to Beauty itself."},
+  {s:'phaedrus', n:'Phaedrus', g:'Love and the soul', q:'Love, the charioteer of the soul, and what makes rhetoric an art.'},
+  {s:'charmides', n:'Charmides', g:'Socratic definitions', q:'What is temperance (sōphrosunē)?'},
+  {s:'laches', n:'Laches', g:'Socratic definitions', q:'What is courage?'},
+  {s:'lysis', n:'Lysis', g:'Socratic definitions', q:'What is friendship?'},
+  {s:'euthydemus', n:'Euthydemus', g:'Socratic definitions', q:"Socrates' questioning set against the sophists' word-games."},
+  {s:'protagoras', n:'Protagoras', g:'Virtue and the sophists', q:'Can virtue be taught, and are the virtues one?'},
+  {s:'gorgias', n:'Gorgias', g:'Virtue and the sophists', q:'Rhetoric, power and justice: is it better to suffer wrong than to do it?'},
+  {s:'meno', n:'Meno', g:'Virtue and the sophists', q:'Can virtue be taught? The slave boy and knowledge as recollection.', syl:'Plato: Ideas'},
+  {s:'lesser-hippias', n:'Lesser Hippias', g:'Virtue and the sophists', q:'Is one who does wrong willingly better than one who does it unwillingly?'},
+  {s:'ion', n:'Ion', g:'Virtue and the sophists', q:'Do poets and reciters work by knowledge or by divine inspiration?'},
+  {s:'menexenus', n:'Menexenus', g:'Virtue and the sophists', q:'A funeral speech in praise of Athens, half in earnest and half in parody.'},
+  {s:'republic', n:'Republic', g:'The city and the cosmos', q:'What is justice? The ideal city, philosopher-kings, the Cave and the Form of the Good.', syl:'Plato: Ideas; Justice'},
+  {s:'timaeus', n:'Timaeus', g:'The city and the cosmos', q:'How the Demiurge made the cosmos as a likeness of the eternal Forms.'},
+  {s:'critias', n:'Critias', g:'The city and the cosmos', q:'The unfinished story of ancient Athens and Atlantis.'},
+  {s:'laws', n:'Laws', g:'The city and the cosmos', q:"Plato's last and longest work: laws for a second-best city."},
+];
+const DLG_VERSIONS = {en:{n:'English', sub:'Jowett, 1871'}, hg:{n:'Hinglish', sub:'Hindi grammar, English words'}, hi:{n:'हिंदी', sub:'पूर्ण अनुवाद'}};
+const DLG = {};                 /* loaded dialogues */
+const dlgState = {v: store.get('dlgV', 'en'), par: store.get('dlgPar', false)};
+window.__dlg = (slug, data) => { DLG[slug] = data; };
+function loadDialogue(slug){
+  if(DLG[slug]) return Promise.resolve(DLG[slug]);
+  const tryLoad = src => new Promise((ok, no)=>{ const s = document.createElement('script'); s.src = src; s.onload = ()=> DLG[slug] ? ok(DLG[slug]) : no(); s.onerror = no; document.head.appendChild(s); });
+  return tryLoad(`plato-${slug}.js`).catch(()=>tryLoad(`dialogues/plato-${slug}.js`));
+}
+
+/* ---------- the list on Plato's profile ---------- */
+function platoWorksBlock(){
+  const groups = [...new Set(PLATO_WORKS.map(w=>w.g))];
+  const ready = PLATO_WORKS.filter(w=>w.ok).length;
+  const last = store.get('dlgLast', null);
+  const lw = last && PLATO_WORKS.find(w=>w.s===last.s);
+  return `<section class="ph-sec" id="dialogues"><h2><span>04</span>Read the dialogues</h2>
+    <p class="sub" style="margin:-.4rem 0 1rem">Plato's own words, complete, in Jowett's English with Hinglish and Hindi versions side by side — section by section with Stephanus numbers, so a citation like <i>Phaedo 72e</i> takes you straight to the passage. ${ready} of ${PLATO_WORKS.length} ready; the rest are on the way.</p>
+    ${lw ? `<a class="dl-cont" href="#/read/${lw.s}/${last.tag||''}"><span>Continue reading</span><b>${esc(lw.n)}${last.tag?` · ${esc(last.tag)}`:''}</b><em>&rarr;</em></a>` : ''}
+    ${groups.map(g=>`<h3 class="dl-g">${esc(g)}</h3><div class="dl-grid">${PLATO_WORKS.filter(w=>w.g===g).map(w=>{
+      const i = PLATO_WORKS.indexOf(w)+1;
+      return w.ok ? `<a class="dl-card on" href="#/read/${w.s}"><span class="dl-n">${String(i).padStart(2,'0')}</span>
+          <span class="dl-b"><b>${esc(w.n)}${w.hi?` <small>${esc(w.hi)}</small>`:''}</b><span>${esc(w.q)}</span>
+          <span class="dl-tags"><i>English</i><i>Hinglish</i><i>हिंदी</i>${w.syl?`<i class="sy">Syllabus · ${esc(w.syl)}</i>`:''}</span></span></a>`
+        : `<div class="dl-card"><span class="dl-n">${String(i).padStart(2,'0')}</span>
+          <span class="dl-b"><b>${esc(w.n)}</b><span>${esc(w.q)}</span><span class="dl-tags"><i class="soon">Coming soon</i>${w.syl?`<i class="sy">Syllabus · ${esc(w.syl)}</i>`:''}</span></span></div>`; }).join('')}</div>`).join('')}
+  </section>`;
+}
+
+/* ---------- the reader ---------- */
+function readerPage(slug, tag){
+  const w = PLATO_WORKS.find(x=>x.s===slug);
+  if(!w) return notFound();
+  if(!w.ok) return `<section class="page"><div class="wrap"><div class="soon-box" style="margin-top:2rem"><b>${esc(w.n)} is on the way</b><p>${esc(w.q)}</p><p style="margin-top:1rem"><a href="#/philosopher/plato" style="color:var(--accent)">Back to Plato</a></p></div></div></section>`;
+  return `<section class="page dl-page"><div class="wrap" id="dlRoot" data-slug="${slug}" data-tag="${esc(tag||'')}">
+    <div class="loading" style="margin:3rem 0"><i></i>Opening ${esc(w.n)}…</div></div></section>`;
+}
+function bindReader(){
+  const root = $('#dlRoot'); if(!root) return;
+  const slug = root.dataset.slug, tag = root.dataset.tag;
+  loadDialogue(slug).then(d=>{ if($('#dlRoot') !== root) return; paintReader(root, d, tag); })
+    .catch(()=>{ root.innerHTML = `<div class="soon-box" style="margin-top:2rem"><b>Couldn't open this dialogue</b>
+      <p>The file <code>plato-${slug}.js</code> needs to sit next to index.html on the site. If you are offline, try again once you're connected.</p></div>`; });
+}
+const dlgText = t => esc(t).replace(/—/g,'—');
+function paraHTML(p, v){
+  const [sp, t, f] = p;
+  const cls = (f||'').includes('n') ? 'dl-note' : (f||'').includes('i') ? 'dl-verse' : '';
+  return `<p class="${cls}"${v==='hi'?' lang="hi"':''}>${sp?`<span class="dl-sp">${esc(sp)}</span> `:''}${dlgText(t)}</p>`;
+}
+function paintReader(root, d, tag){
+  const w = PLATO_WORKS.find(x=>x.s===d.slug), i = PLATO_WORKS.indexOf(w);
+  const v = dlgState.v, par = dlgState.par;
+  const other = v === 'en' ? 'hi' : v;               /* side-by-side partner for English */
+  const secs = d.parts.en;
+  const toc = secs.map((s,k)=>`<a href="javascript:void 0" data-dlj="${esc(s.tag)}"><i>${esc(s.tag)}</i><span>${esc((d.parts[v]||secs)[k].title)}</span></a>`).join('');
+  const body = secs.map((s,k)=>{
+    const S = d.parts[v][k];
+    if(!par) return `<section class="dl-sec" id="dl-${esc(s.tag)}" data-tag="${esc(s.tag)}">
+        <h2><span class="dl-tag">${esc(s.tag)}</span><span${v==='hi'?' lang="hi"':''}>${esc(S.title)}</span></h2>
+        <div class="dl-txt v-${v}">${S.paras.map(p=>paraHTML(p,v)).join('')}</div></section>`;
+    const A = d.parts.en[k], B = d.parts[other][k];
+    return `<section class="dl-sec" id="dl-${esc(s.tag)}" data-tag="${esc(s.tag)}">
+        <h2><span class="dl-tag">${esc(s.tag)}</span><span>${esc(A.title)}</span><small${other==='hi'?' lang="hi"':''}>${esc(B.title)}</small></h2>
+        <div class="dl-par">${A.paras.map((p,j)=>`<div class="dl-row"><div class="dl-txt v-en">${paraHTML(p,'en')}</div><div class="dl-txt v-${other}">${B.paras[j]?paraHTML(B.paras[j],other):''}</div></div>`).join('')}</div></section>`;
+  }).join('');
+  const prev = PLATO_WORKS.slice(0,i).reverse().find(x=>x.ok), next = PLATO_WORKS.slice(i+1).find(x=>x.ok);
+  root.innerHTML = `
+    <div class="banner night dl-banner">${PATTERN}
+      <div class="crumb"><a href="#/">Home</a> · <a href="#/philosophers">Philosophers</a> · <a href="#/philosopher/plato">Plato</a> · Dialogues</div>
+      <div class="num">${esc(d.kicker)}</div>
+      <h1 class="title">${esc(d.title)}</h1>
+      <div class="dl-hi" lang="hi">${esc(d.hi)}</div>
+      <p class="blurb">${esc(d.blurb)}</p>
+      <div class="dl-facts"><span>${secs.length} sections</span><span>${esc(d.range)}</span><span>${(d.words/1000).toFixed(1)}k words in English</span><span>~${Math.round(d.words/220)} min read</span></div>
+    </div>
+    <div class="dl-bar" id="dlBar">
+      <div class="dl-seg" role="tablist">${Object.entries(DLG_VERSIONS).map(([k,o])=>`<button data-dlv="${k}" class="${k===v?'on':''}" role="tab"${k==='hi'?' lang="hi"':''}>${o.n}</button>`).join('')}</div>
+      <label class="dl-tog"><input type="checkbox" id="dlPar"${par?' checked':''}><span></span>Side by side with English</label>
+      <span class="sp"></span>
+      <span class="fsz" title="Text size"><button data-fs="-0.05" aria-label="Smaller text">A&minus;</button><button data-fs="0" aria-label="Reset text size">A</button><button data-fs="0.05" aria-label="Larger text">A+</button></span>
+      <button class="btn small dl-tocbtn" id="dlTocBtn">Sections</button>
+    </div>
+    <details class="dl-about"><summary>About this edition and key terms</summary>
+      ${d.intro.map(p=>`<p>${esc(p)}</p>`).join('')}
+      ${d.terms.length ? `<div class="dl-terms">${d.terms.map(t=>`<div><b>${esc(t[0])}</b><i>${esc(t[1])}</i><span lang="hi">${esc(t[2])}</span></div>`).join('')}</div>` : ''}
+    </details>
+    <div class="dl-wrap${par?' par':''}">
+      <nav class="dl-toc" id="dlToc"><div class="dl-toc-h">${esc(d.title)} · sections</div>${toc}</nav>
+      <article class="dl-body" id="dlBody">${body}
+        <div class="dl-end">❦ <span>End of the ${esc(d.title)}</span></div>
+      </article>
+    </div>
+    <div class="pager">
+      ${prev?`<a href="#/read/${prev.s}"><small>&larr; Previous dialogue</small><b>${esc(prev.n)}</b></a>`:`<a href="#/philosopher/plato"><small>&larr; Back</small><b>Plato</b></a>`}
+      ${next?`<a href="#/read/${next.s}" style="text-align:right"><small>Next dialogue &rarr;</small><b>${esc(next.n)}</b></a>`:`<a href="#/philosopher/plato#dialogues" style="text-align:right"><small>All dialogues &rarr;</small><b>Plato</b></a>`}
+    </div>`;
+  $$('[data-dlv]').forEach(b=>b.onclick = ()=>{ const cur = currentDlgTag(); dlgState.v = b.dataset.dlv; store.set('dlgV', dlgState.v); paintReader(root, d, cur); });
+  $('#dlPar').onchange = e=>{ const cur = currentDlgTag(); dlgState.par = e.target.checked; store.set('dlgPar', dlgState.par); paintReader(root, d, cur); };
+  $$('.dl-bar .fsz [data-fs]').forEach(b=>b.onclick = ()=>setFs(+b.dataset.fs));
+  $$('[data-dlj]').forEach(a=>a.onclick = e=>{ e.preventDefault(); $('#dlToc').classList.remove('open'); scrollTo_('dl-'+a.dataset.dlj); });
+  $('#dlTocBtn').onclick = ()=>$('#dlToc').classList.toggle('open');
+  /* track the section in view: highlight it and remember it */
+  if(window.__dlSpy) window.__dlSpy.disconnect();
+  const spy = window.__dlSpy = new IntersectionObserver(ents=>{
+    ents.forEach(en=>{ if(en.isIntersecting){
+      const t = en.target.dataset.tag;
+      $$('#dlToc a').forEach(a=>a.classList.toggle('cur', a.dataset.dlj===t));
+      const cur = $(`#dlToc a[data-dlj="${CSS.escape(t)}"]`); if(cur && !$('#dlToc').matches(':hover')) cur.scrollIntoView({block:'nearest'});
+      store.set('dlgLast', {s:d.slug, tag:t});
+      if(history.replaceState) history.replaceState(null, '', `#/read/${d.slug}/${t}`);
+    } });
+  }, {rootMargin:'-20% 0px -70% 0px'});
+  $$('.dl-sec').forEach(s=>spy.observe(s));
+  if(tag && document.getElementById('dl-'+tag)) requestAnimationFrame(()=>{ const el = document.getElementById('dl-'+tag);
+    window.scrollTo({top: el.getBoundingClientRect().top + scrollY - ($('.topbar').offsetHeight + $('#dlBar').offsetHeight + 16)}); });
+  logActivity();
+}
+function currentDlgTag(){
+  const secs = $$('.dl-sec'), off = $('.topbar').offsetHeight + 80;
+  let cur = secs[0] && secs[0].dataset.tag;
+  for(const s of secs){ if(s.getBoundingClientRect().top - off <= 0) cur = s.dataset.tag; else break; }
+  return cur;
+}
+
+PLATO_WORKS.filter(w=>w.ok).forEach(w=>{ const x = {title:`${w.n} — Plato's dialogue`, syl:w.q, part:'Read · English, Hinglish, Hindi', color:'var(--western)', href:`#/read/${w.s}`}; x.f = fold(x.title+' '+x.syl); INDEX.splice(40, 0, x); });
 PHILOSOPHERS.forEach(p=>{ const x = {title:p.n, syl:p.sch, part:`Philosopher · ${PH_PARTS[p.p].name}`, color:PH_PARTS[p.p].c, href:`#/philosopher/${p.id}`};
   x.f = fold(x.title+' '+p.o+' '+p.sch); INDEX.splice(40, 0, x); });
 

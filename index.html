@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Darśana — Philosophy notes for UPSC</title>
 <meta name="description" content="Free Philosophy optional notes, syllabus and previous year papers for the UPSC Civil Services examination.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cstyle%3E.sh%7Bfill%3A%23F3C25E%7D.tl%7Bfill%3A%23FBF8F1%3Bstroke%3A%23191722%7D.gh%7Bstroke%3A%23191722%7D.a%7Bstop-color%3A%235B66E6%7D.b%7Bstop-color%3A%23272D8F%7D%40media%20%28prefers-color-scheme%3Adark%29%7B.sh%7Bfill%3A%233A44C2%7D.tl%7Bfill%3A%231B1F2C%3Bstroke%3A%23ECE8DF%7D.gh%7Bstroke%3A%23ECE8DF%7D.a%7Bstop-color%3A%23F3C25E%7D.b%7Bstop-color%3A%23F59D8C%7D%7D%3C/style%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20class%3D%22a%22/%3E%3Cstop%20offset%3D%221%22%20class%3D%22b%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20class%3D%22sh%22%20x%3D%228%22%20y%3D%228%22%20width%3D%2253%22%20height%3D%2253%22%20rx%3D%2214%22/%3E%3Crect%20class%3D%22tl%22%20x%3D%223%22%20y%3D%223%22%20width%3D%2253%22%20height%3D%2253%22%20rx%3D%2214%22%20stroke-width%3D%222.6%22/%3E%3Cpath%20class%3D%22gh%22%20d%3D%22M18%2044V27a12%2012%200%200%201%2024%200v17l-4-4-4%204-4-4-4%204-4-4Z%22%20fill%3D%22url%28%23g%29%22%20stroke-width%3D%224%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
@@ -106,10 +107,13 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;p
 }
 .topbar .wrap{display:flex;align-items:center;gap:1rem;height:4rem;}
 .mark{display:flex;align-items:center;gap:.55rem;text-decoration:none;flex:none;}
-.mark .logo{width:2.1rem;height:2.1rem;border-radius:10px;display:grid;place-items:center;
-  background:conic-gradient(from 200deg,var(--western),var(--indian),var(--religion),var(--socio),var(--western));
-  color:#fff;font-family:var(--deva);font-size:1.15rem;line-height:1;box-shadow:0 6px 16px -8px var(--shadow);}
-.mark .logo span{display:grid;place-items:center;width:1.7rem;height:1.7rem;border-radius:8px;background:var(--night);line-height:1;padding-top:.12rem;overflow:visible;}
+.mark .logo{width:2.35rem;height:2.35rem;display:block;flex:none;transition:transform .25s;
+  --lg-tile:#FBF8F1;--lg-line:var(--ink);--lg-sh:var(--gold);--lg-g1:#5B66E6;--lg-g2:var(--western-d);}
+[data-theme="dark"] .mark .logo{--lg-tile:#1B1F2C;--lg-line:#ECE8DF;--lg-sh:#3A44C2;--lg-g1:#F3C25E;--lg-g2:#F59D8C;}
+.mark .logo svg *{transition:fill .35s,stroke .35s,stop-color .35s;}
+.mark .logo svg{width:100%;height:100%;display:block;}
+.mark:hover .logo{transform:rotate(-6deg) translateY(-1px);}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
 .mark .rom{font-family:var(--display);font-size:1.15rem;font-weight:600;letter-spacing:-.01em;}
 .nav{display:flex;gap:.2rem;margin-left:auto;font-family:var(--sans);font-size:.85rem;}
 .nav a{white-space:nowrap;text-decoration:none;color:var(--ink-soft);padding:.38rem .65rem;border-radius:99px;transition:color .15s,background .15s;}
@@ -122,14 +126,6 @@ mark{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inherit;p
   border:1px solid var(--rule);background:var(--paper);cursor:pointer;color:var(--ink-soft);transition:transform .2s,color .15s,border-color .15s;}
 .icon-btn:hover{color:var(--ink);border-color:var(--ink-faint);transform:rotate(-12deg);}
 .icon-btn svg{width:1.05rem;height:1.05rem;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
-.streak{flex:none;display:inline-flex;align-items:center;gap:.3rem;font-family:var(--sans);font-size:.8rem;font-weight:600;
-  padding:.32rem .7rem .32rem .55rem;border-radius:99px;text-decoration:none;
-  background:linear-gradient(135deg,#FFE3A3,#FFB37A);color:#7A3B06;box-shadow:0 6px 16px -10px rgba(200,90,10,.7);transition:transform .2s;}
-.streak:hover{transform:translateY(-1px) scale(1.04);}
-.streak svg{width:1rem;height:1rem;fill:#F26B1D;stroke:none;}
-.streak.cold{background:var(--paper-2);color:var(--ink-faint);box-shadow:none;}
-.streak.cold svg{fill:var(--ink-faint);}
-.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
 .visits{flex:none;display:inline-flex;align-items:center;gap:.32rem;font-family:var(--sans);font-size:.8rem;font-weight:600;
   padding:.32rem .7rem .32rem .55rem;border-radius:99px;cursor:default;font-variant-numeric:tabular-nums;
   background:linear-gradient(135deg,#DCE0FF,#B9C1FF);color:#232A7A;box-shadow:0 6px 16px -10px rgba(40,50,180,.7);}
@@ -921,8 +917,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:1.2rem;align-items:center;justify-c
   .wrap{padding:0 1rem;}
   .topbar .wrap{height:auto;padding-top:.65rem;padding-bottom:.65rem;flex-wrap:wrap;gap:.6rem;}
   .menu-btn{display:block;}
-  .streak,.visits{order:1;}
-  .visits,.streak{padding:.3rem .55rem .3rem .45rem;font-size:.76rem;gap:.25rem;}
+  .visits{order:1;}
+  .visits{padding:.3rem .55rem .3rem .45rem;font-size:.76rem;gap:.25rem;}
   .mark .rom{font-size:1.1rem;}
   #themeBtn{order:2;}
   .search{order:4;width:100%;flex:none;}
@@ -1171,7 +1167,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:1.2rem;align-items:center;justify-c
 
 <header class="topbar">
   <div class="wrap">
-    <a class="mark" href="#/"><span class="logo"><span>द</span></span><span class="rom">Darśana</span></a>
+    <a class="mark" href="#/"><span class="logo"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="ghostGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--lg-g1)"/><stop offset="1" style="stop-color:var(--lg-g2)"/></linearGradient></defs><rect x="8" y="8" width="53" height="53" rx="14" style="fill:var(--lg-sh)"/><rect x="3" y="3" width="53" height="53" rx="14" style="fill:var(--lg-tile);stroke:var(--lg-line)" stroke-width="2.6"/><path d="M18 44V27a12 12 0 0 1 24 0v17l-4-4-4 4-4-4-4 4-4-4Z" fill="url(#ghostGrad)" style="stroke:var(--lg-line)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/></svg></span><span class="rom">Darśana</span></a>
     <button class="menu-btn" id="menuBtn" aria-expanded="false">Menu</button>
     <nav class="nav" id="nav"></nav>
     <div class="search">
@@ -1180,7 +1176,6 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:1.2rem;align-items:center;justify-c
       <div class="results" id="res" role="listbox"></div>
     </div>
     <span class="visits wait" id="visits" title="Total visits to this site"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><b>…</b><span class="sr-only"> visits</span></span>
-    <a class="streak cold" id="streak" href="#/practice"></a>
     <button class="icon-btn" id="themeBtn" title="Switch between day and night reading" aria-label="Toggle dark mode"></button>
   </div>
   <div class="prog" id="prog"></div>
@@ -1227,7 +1222,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:1.2rem;align-items:center;justify-c
 
 <footer>
   <div class="wrap">
-    <span class="by"><span class="deva">दर्शन</span>Made by Mukul Jakhar</span>
+    <span class="by"><span class="deva">दर्शन</span>Made by Ghost</span>
     <span class="keys">Select a word for its meaning, a passage for its translation &nbsp;·&nbsp; <kbd>/</kbd> search &nbsp; <kbd>C</kbd> contents &nbsp; <kbd>T</kbd> day / night &nbsp; flashcards: <kbd>Space</kbd> flip, <kbd>&larr;</kbd> <kbd>&rarr;</kbd></span>
   </div>
 </footer>
@@ -1476,7 +1471,6 @@ function home(){
   const secs = Object.values(TOPIC_CONTENT).reduce((a,t)=>a+t.sections.length,0);
   const last = store.get('last', null);
   const lastT = last && topicOf(last.key);
-  const st = streakCount();
   return `
   <section class="hero">
     <canvas class="stars" id="stars"></canvas>
@@ -2324,30 +2318,12 @@ reader.classList.add('drawing'); sizeDot();
 
 
 /* ================================================================
-   EXTRAS: streaks, confetti, reveal-on-scroll, starfield, card tilt,
+   EXTRAS: confetti, reveal-on-scroll, starfield, card tilt,
    and the select-to-define / select-to-translate tools.
    ================================================================ */
 
-/* ---------- study streak ---------- */
-const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
-function logActivity(){
-  const days = store.get('days', []); const t = today();
-  if(!days.includes(t)){ days.push(t); store.set('days', days.slice(-400)); }
-  paintStreak();
-}
-function streakCount(){
-  const days = new Set(store.get('days', [])); let n = 0; const d = new Date();
-  if(!days.has(today())) d.setDate(d.getDate()-1);
-  for(;;){ const k = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    if(days.has(k)){ n++; d.setDate(d.getDate()-1); } else break; }
-  return n;
-}
-function paintStreak(){
-  const s = streakCount(), el = $('#streak'); if(!el) return;
-  el.classList.toggle('cold', s===0);
-  el.innerHTML = `<svg viewBox="0 0 24 24"><path d="M12 2c1 3.5-1.5 5.5-3 7.5S6 13.5 6 15.5A6 6 0 0 0 18 15.5c0-3-2-5-3-6.5-.3 1.6-1 2.6-2 3 .6-3.5-.2-7.3-1-10Z"/></svg>${s}`;
-  el.title = s ? `${s}-day study streak — open the notes or practise every day to keep it going` : 'Start a study streak: open the notes or practise today';
-}
+/* ---------- activity hook (kept so other features can call it; no streak is shown) ---------- */
+function logActivity(){}
 
 /* ---------- site-wide visit counter ----------
    Every full page load on the published site (any device, refreshes included)
@@ -3454,7 +3430,6 @@ PHILOSOPHERS.forEach(p=>{ const x = {title:p.n, syl:p.sch, part:`Philosopher · 
   x.f = fold(x.title+' '+p.o+' '+p.sch); INDEX.splice(40, 0, x); });
 
 if(store.get('practice', false)) document.body.classList.add('practice-on');
-paintStreak();
 paintVisits();
 render();
 </script>
